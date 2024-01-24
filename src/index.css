@@ -650,6 +650,7 @@ figure {
 }
 
 .btn-close-offcanvas {
+  font-size: 16px;
   width: 40px !important;
   height: 40px !important;
   position: absolute;
@@ -1081,7 +1082,7 @@ figure {
 
 .logo-toptec-landing- {
   width: 130px;
-  height: 78px;
+  height: auto;
 }
 
 /* ---------------------------------------------------
@@ -2232,19 +2233,27 @@ input.custom-style-date-picker-::placeholder {
   }
 
   .fs-2- {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .fs-3- {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .fs-4- {
-    font-size: 11.5px;
+    font-size: 12px;
   }
 
   .fs-5- {
-    font-size: 11.5px;
+    font-size: 11px;
+  }
+
+  /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 95px;
   }
 
   /* ---------------------------------------------------
@@ -2253,6 +2262,17 @@ input.custom-style-date-picker-::placeholder {
 
   .wrapper-search- .search- {
     width: 100%;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 14px;
+    width: 34px !important;
+    height: 34px !important;
+    right: 1rem;
   }
 
 }
@@ -2276,19 +2296,27 @@ input.custom-style-date-picker-::placeholder {
   }
 
   .fs-2- {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .fs-3- {
-    font-size: 12.5px;
+    font-size: 14px;
   }
 
   .fs-4- {
-    font-size: 12.5px;
+    font-size: 13px;
   }
 
   .fs-5- {
     font-size: 12px;
+  }
+
+  /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 100px;
   }
 
   /* ---------------------------------------------------
@@ -2297,6 +2325,17 @@ input.custom-style-date-picker-::placeholder {
 
   .wrapper-search- .search- {
     width: 100%;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 36px !important;
+    height: 36px !important;
+    right: 1rem;
   }
 
 }
@@ -2328,11 +2367,19 @@ input.custom-style-date-picker-::placeholder {
   }
 
   .fs-4- {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .fs-5- {
     font-size: 14px;
+  }
+
+  /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 110px;
   }
 
   /* ---------------------------------------------------
@@ -2341,6 +2388,17 @@ input.custom-style-date-picker-::placeholder {
 
   .wrapper-search- .search- {
     width: 100%;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 1.5rem;
   }
 
 }
@@ -2380,11 +2438,30 @@ input.custom-style-date-picker-::placeholder {
   }
 
   /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 120px;
+  }
+
+  /* ---------------------------------------------------
     SEARCH NAVBAR
   ----------------------------------------------------- */
 
   .wrapper-search- .search- {
     width: 300px;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 2rem;
   }
 
 }
@@ -2424,11 +2501,30 @@ input.custom-style-date-picker-::placeholder {
   }
 
   /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 130px;
+  }
+
+  /* ---------------------------------------------------
     SEARCH NAVBAR
   ----------------------------------------------------- */
 
   .wrapper-search- .search- {
     width: 320px;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 2rem;
   }
 
 }
@@ -2468,11 +2564,30 @@ input.custom-style-date-picker-::placeholder {
   }
 
   /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 130px;
+  }
+
+  /* ---------------------------------------------------
     SEARCH NAVBAR
   ----------------------------------------------------- */
 
   .wrapper-search- .search- {
     width: 270px;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 2rem;
   }
 
 }
@@ -2512,11 +2627,30 @@ input.custom-style-date-picker-::placeholder {
   }
 
   /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 130px;
+  }
+
+  /* ---------------------------------------------------
     SEARCH NAVBAR
   ----------------------------------------------------- */
 
   .wrapper-search- .search- {
     width: 358px;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 2rem;
   }
 
 }
@@ -2556,11 +2690,30 @@ input.custom-style-date-picker-::placeholder {
   }
 
   /* ---------------------------------------------------
+    LOGO TOPTEC
+  ----------------------------------------------------- */
+
+  .logo-toptec-landing- {
+    width: 130px;
+  }
+
+  /* ---------------------------------------------------
     SEARCH NAVBAR
   ----------------------------------------------------- */
 
   .wrapper-search- .search- {
     width: 358px;
+  }
+
+  /* ---------------------------------------------------
+    OFFCANVAS
+  ----------------------------------------------------- */
+
+  .btn-close-offcanvas {
+    font-size: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    right: 2rem;
   }
 
 }

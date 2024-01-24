@@ -955,7 +955,7 @@ export default function DataUpload() {
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
           <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
-            <FontAwesomeIcon className='me-3' icon={faArrowUpFromBracket} size="xl"/>
+            <FontAwesomeIcon className='fs-2- me-2' icon={faArrowUpFromBracket}/>
             <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Cargar datos</h3>
           </div>
         </div>
@@ -1237,7 +1237,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="manual-characterization" aria-labelledby="manual-characterization" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4">
+        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos manuales
           </h2>
@@ -1245,7 +1245,7 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-4 pe-4">
+        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid">
             <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-4 ms-1 me-1'>
               <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start align-items-center align-self-center'>
@@ -1514,7 +1514,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="relevance-characteristics" aria-labelledby="relevance-characteristics" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4">
+        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Relevancia de características
           </h2>
@@ -1522,7 +1522,7 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-4 pe-4">
+        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid position-relative">
             <div className='row mt-4 mb-4 ms-1 me-1'>
               <div className='col-auto'>
@@ -1542,7 +1542,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="import-characterization" aria-labelledby="import-characterization" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4">
+        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos importados
           </h2>
@@ -1550,7 +1550,7 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-4 pe-4">
+        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid position-relative">
             <div className='row mt-4 mb-4 ms-1 me-1'>
               <div className='col-12'>

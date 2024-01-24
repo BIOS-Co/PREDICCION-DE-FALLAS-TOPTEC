@@ -348,7 +348,7 @@ export default function DataHistory() {
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
           <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
-            <FontAwesomeIcon className='me-3' icon={faClockRotateLeft} size="xl"/>
+            <FontAwesomeIcon className='fs-2- me-2' icon={faClockRotateLeft}/>
             <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Histórico</h3>
           </div>
         </div>
