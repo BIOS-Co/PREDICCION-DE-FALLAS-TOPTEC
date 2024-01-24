@@ -38,7 +38,7 @@ export default function Landing() {
         </div>
         <div className='row mt-4 mb-4'>
           <div className='col-12'>
-            <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-center fw-bold tx-primary-blue- le-spacing-1-">Predicción de fallas</h3>
+            <h3 className="m-0 p-0 lh-sm fs-1- font-oswald-regular- text-uppercase text-center fw-bold tx-primary-blue- le-spacing-1-">Predicción de fallas</h3>
           </div>
         </div>
         <div className='row mt-4 mb-4 wrapper-buttons-landing-'>
