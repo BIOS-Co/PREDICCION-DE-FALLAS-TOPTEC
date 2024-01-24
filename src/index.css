@@ -1992,13 +1992,13 @@ input.custom-style-date-picker-::placeholder {
 .table-general- .table .sticky-column-start- {
   position: sticky;
   z-index: 1;
-  background-color: var(--color-primary-white-);
+  background-color: var(--color-quinary-gray-) !important;
 }
 
 .table-general- .table .sticky-column-end- {
   position: sticky;
   z-index: 1;
-  background-color: var(--color-primary-white-);
+  background-color: var(--color-quinary-gray-);
 }
 
 .sticky-column-first- {
@@ -2103,8 +2103,8 @@ input.custom-style-date-picker-::placeholder {
 }
 
 .table-general- .table .th-width-xxs- {
-  width: 80px;
-  min-width: 80px;
+  width: 130px;
+  min-width: 130px;
 }
 
 .table-general- .table .th-width-xxxs- {

@@ -360,7 +360,7 @@ export default function DataHistory() {
           <div className="w-auto">
             <input type="radio" className="btn-check" name="options-table-models"
               id="table-type-machine-learning-model" checked={typeModelHistory === "machine_learning_model"} onChange={() => changeRadioModelHistory("machine_learning_model")} />
-            <label className="btn rounded-pill btn-transparent- btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3" htmlFor="table-type-machine-learning-model"> Modelo de machine learning
+            <label className="btn rounded-pill btn-transparent- btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3" htmlFor="table-type-machine-learning-model"> Modelo de Aprendizaje automático
             </label>
           </div>
         </div>
@@ -370,51 +370,49 @@ export default function DataHistory() {
               } />
             <label className="btn rounded-pill btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3"
               htmlFor="table-type-computer-vision-model">
-              Modelo de computer vision
+              Modelo de Visión por computador
             </label>
           </div>
         </div>
       </div>
       {typeModelHistory === "machine_learning_model" && (
         <>
-          <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5 mb-5 ms-4 me-4'>
+          <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5 mb-4 mb-sm-4 mb-md-5 mb-lg-5 mb-xl-5 mb-xxl-5 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
               <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
-                <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Machine Learning</h3>
+                <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Aprendizaje automático</h3>
               </div>
             </div>
-            <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1 gap-1 d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-3 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
-              <div className='row gx-2 d-flex flex-row justify-content-center align-items-center align-self-center'>
-                <div id='internal-form' className="col-auto">
-                  <div className='form-floating inner-addon- left-addon-'>
-                    <div className='form-control'>
-                      <DatePicker
-                        range
-                        numberOfMonths={2}
-                        inputClass="custom-style-date-picker-"
-                        placeholder='dd-mm-yy ~ dd-mm-yy'
-                        weekDays={weekDays}
-                        locale={espanol_es_lowercase}
-                        format="YYYY-MM-DD"
-                        minDate={minDate}
-                        maxDate={maxDate}
-                        calendarPosition="bottom-left"
-                        showOtherDays={true}
-                        fixMainPosition={true}
-                        shadow={true}
-                        animation={true}
-                        arrowStyle={{
-                          display: "none"
-                        }}
-                      />
-                    </div>
-                    <label className='fs-5- ff-monse-regular-'>Rango de fecha</label>
+            <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-4 mt-sm-4 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
+              <div id='internal-form' className="col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto">
+                <div className='form-floating inner-addon- left-addon-'>
+                  <div className='form-control'>
+                    <DatePicker
+                      range
+                      numberOfMonths={2}
+                      inputClass="custom-style-date-picker-"
+                      placeholder='dd-mm-yy ~ dd-mm-yy'
+                      weekDays={weekDays}
+                      locale={espanol_es_lowercase}
+                      format="YYYY-MM-DD"
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      calendarPosition="bottom-left"
+                      showOtherDays={true}
+                      fixMainPosition={true}
+                      shadow={true}
+                      animation={true}
+                      arrowStyle={{
+                        display: "none"
+                      }}
+                    />
                   </div>
+                  <label className='fs-5- ff-monse-regular-'>Rango de fecha</label>
                 </div>
               </div>
             </div>
           </div>
-          <div className='row mt-4 mb-4 ms-4 me-4'>
+          <div className='row mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12'>
               <form action="" className='position-relative wrapper-search- d-block d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block'>
                 <div className='form-search inner-addon- left-addon-'>
@@ -424,7 +422,7 @@ export default function DataHistory() {
               </form>
             </div>
           </div>
-          <div className='row mt-4 ms-4 me-4'>
+          <div className='row mt-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 d-flex flex-row justify-content-end align-items-center align-self-center'>
               <form id='internal-form' action='' className='position-relative'>
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -438,14 +436,14 @@ export default function DataHistory() {
               </form>
             </div>
           </div>
-          <div className='row mb-2 ms-4 me-4'>
+          <div className='row mb-2 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12'>
               <div className='table-responsive table-general-'>
-                <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle'>
+                <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle mb-1'>
                   <thead>
                     <tr>
                       <th scope="col" className='th-width-xs-'>
-                        <div className='d-flex flex-row justify-content-start align-items-center align-self-center w-100'>
+                        <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                           <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                             <div className='checks-radios-'>
                               <label>
@@ -456,19 +454,19 @@ export default function DataHistory() {
                           </div>
                         </div>
                       </th>
-                      <th scope="col" className='th-width-auto-'>
+                      <th scope="col" className='th-width-md-'>
                         <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                           <span className='fs-6-'>Nombre</span>
                         </div>
                       </th>
-                      <th scope="col" className='th-width-auto-'>
+                      <th scope="col" className='th-width-sm-'>
                         <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                           <span className='fs-6-'>Fecha</span>
                         </div>
                       </th>
-                      <th scope="col" className='th-width-auto-'>
+                      <th scope="col" className='th-width-sm-'>
                         <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                          <span className='fs-6-'>Fallan</span>
+                          <span className='fs-6-'>Malas</span>
                         </div>
                       </th>
                     </tr>
@@ -542,7 +540,7 @@ export default function DataHistory() {
               </div>
             </div>
           </div>
-          <div className='row mt-2 mb-4 ms-4 me-4'>
+          <div className='row mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 d-flex flex-row justify-content-center align-items-center align-self-center'>
               <Pagination
                 pageCount={pageCount}
@@ -551,7 +549,7 @@ export default function DataHistory() {
               />
             </div>
           </div>
-          <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-4 me-4'>
+          <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
               <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><FontAwesomeIcon className='me-2' icon={faFileExport} size="sm"/>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Exportar</span>
@@ -563,44 +561,42 @@ export default function DataHistory() {
 
       {typeModelHistory === "computer_vision_model" && (
         <>
-        <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5 mb-5 ms-4 me-4'>
+        <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5 mb-4 mb-sm-4 mb-md-5 mb-lg-5 mb-xl-5 mb-xxl-5 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
             <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
-              <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Computer vision</h3>
+              <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Visión por computador</h3>
             </div>
           </div>
-          <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1 gap-1 d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-3 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
-            <div className='row gx-2 d-flex flex-row justify-content-center align-items-center align-self-center'>
-              <div id='internal-form' className="col-auto">
-                <div className='form-floating inner-addon- left-addon-'>
-                  <div className='form-control'>
-                    <DatePicker
-                      range
-                      numberOfMonths={2}
-                      inputClass="custom-style-date-picker-"
-                      placeholder='dd-mm-yy ~ dd-mm-yy'
-                      weekDays={weekDays}
-                      locale={espanol_es_lowercase}
-                      format="YYYY-MM-DD"
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      calendarPosition="bottom-left"
-                      showOtherDays={true}
-                      fixMainPosition={true}
-                      shadow={true}
-                      animation={true}
-                      arrowStyle={{
-                        display: "none"
-                      }}
-                    />
-                  </div>
-                  <label className='fs-5- ff-monse-regular-'>Rango de fecha</label>
+          <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-4 mt-sm-4 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
+            <div id='internal-form' className="col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto">
+              <div className='form-floating inner-addon- left-addon-'>
+                <div className='form-control'>
+                  <DatePicker
+                    range
+                    numberOfMonths={2}
+                    inputClass="custom-style-date-picker-"
+                    placeholder='dd-mm-yy ~ dd-mm-yy'
+                    weekDays={weekDays}
+                    locale={espanol_es_lowercase}
+                    format="YYYY-MM-DD"
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    calendarPosition="bottom-left"
+                    showOtherDays={true}
+                    fixMainPosition={true}
+                    shadow={true}
+                    animation={true}
+                    arrowStyle={{
+                      display: "none"
+                    }}
+                  />
                 </div>
+                <label className='fs-5- ff-monse-regular-'>Rango de fecha</label>
               </div>
             </div>
           </div>
         </div>
-        <div className='row mt-4 mb-4 ms-4 me-4'>
+        <div className='row mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12'>
             <form action="" className='position-relative wrapper-search- d-block d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block'>
               <div className='form-search inner-addon- left-addon-'>
@@ -610,7 +606,7 @@ export default function DataHistory() {
             </form>
           </div>
         </div>
-        <div className='row mt-4 ms-4 me-4'>
+        <div className='row mt-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12 d-flex flex-row justify-content-end align-items-center align-self-center'>
             <form id='internal-form' action='' className='position-relative'>
               <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -624,14 +620,14 @@ export default function DataHistory() {
             </form>
           </div>
         </div>
-        <div className='row mb-2 ms-4 me-4'>
+        <div className='row mb-2 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12'>
             <div className='table-responsive table-general-'>
-              <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle'>
+              <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle mb-1'>
                 <thead>
                   <tr>
-                    <th scope="col" rowSpan="2" className='th-width-xs- sticky-column-start- no-relevance- align-middle'>
-                      <div className='d-flex flex-row justify-content-start align-items-center align-self-center w-100'>
+                    <th scope="col" rowSpan="2" className='th-width-xs- no-relevance- align-middle'>
+                      <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                           <div className='checks-radios-'>
                             <label>
@@ -642,74 +638,74 @@ export default function DataHistory() {
                         </div>
                       </div>
                     </th>
-                    <th scope="col" rowSpan="2" className='th-width-auto- sticky-column-start- no-relevance- align-middle'>
+                    <th scope="col" rowSpan="2" className='th-width-sm- no-relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Fecha y hora de inferencia</span>
                       </div>
                     </th>
-                    <th scope="col" rowSpan="2" className='th-width-auto- sticky-column-start- no-relevance- align-middle'>
+                    <th scope="col" rowSpan="2" className='th-width-sm- no-relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Placas buenas</span>
                       </div>
                     </th>
-                    <th scope="col" colSpan="11" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" colSpan="11" className='th-width-auto-  relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Características de defectos</span>
                       </div>
                     </th>
                   </tr>
                   <tr>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Basura</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Delaminación</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Desborde</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Despunte</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Fisura</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Mancha</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Maquina</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Nudo</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Separador</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Tallón</span>
                       </div>
                     </th>
-                    <th scope="col" className='th-width-auto- sticky-column-start- relevance- align-middle'>
+                    <th scope="col" className='th-width-xxs- relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Burbuja</span>
                       </div>
@@ -875,7 +871,7 @@ export default function DataHistory() {
             </div>
           </div>
         </div>
-        <div className='row mt-2 mb-4 ms-4 me-4'>
+        <div className='row mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12 d-flex flex-row justify-content-center align-items-center align-self-center'>
             <Pagination
               pageCount={pageCount}
@@ -884,7 +880,7 @@ export default function DataHistory() {
             />
           </div>
         </div>
-        <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-4 me-4'>
+        <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
             <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><FontAwesomeIcon className='me-2' icon={faFileExport} size="sm"/>
               <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Exportar</span>

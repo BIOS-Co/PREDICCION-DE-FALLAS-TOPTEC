@@ -1264,9 +1264,9 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
+        <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid">
-            <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-4 ms-1 me-1'>
+            <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-4'>
               <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start align-items-center align-self-center'>
                 <div className="row mb-3">
                   <div className="col-12">
@@ -1278,11 +1278,11 @@ export default function DataUpload() {
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">No falla</p>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Falla</p>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
                   </div>
                 </div>
               </div>
@@ -1306,7 +1306,7 @@ export default function DataUpload() {
                 </div>
               </div>
             </div>
-            <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4 ms-1 me-1'>
+            <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
@@ -1541,16 +1541,16 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
+        <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid position-relative">
-            <div className='row mt-4 mb-4 ms-1 me-1'>
+            <div className='row mt-4 mb-4'>
               <div className='col-auto'>
                 <div className='w-auto pt-1 bt-primary-red-'>
                   <h3 className="m-0 p-0 lh-sm fs-3- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Tallon</h3>
                 </div>
               </div>
             </div>
-            <div className='row mt-4 mb-4 ms-1 me-1'>
+            <div className='row mt-4 mb-4'>
               <div id='relevance-chart-' className='col-12'>
                 <div className='wrapper-relevance-chart- w-100'>
                   <div className='w-100 h-100 mx-auto' id='relevance-characteristics-chart-'></div>
@@ -1569,9 +1569,9 @@ export default function DataUpload() {
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
-        <div className="offcanvas-body ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
+        <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <div className="container-fluid position-relative">
-            <div className='row mt-4 mb-4 ms-1 me-1'>
+            <div className='row mt-4 mb-4'>
               <div className='col-12'>
                 <form action="" className='position-relative wrapper-search- d-block d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block'>
                   <div className='form-search inner-addon- left-addon-'>
@@ -1581,7 +1581,7 @@ export default function DataUpload() {
                 </form>
               </div>
             </div>
-            <div className='row mt-4 ms-1 me-1'>
+            <div className='row mt-4'>
               <div className='col-12 d-flex flex-row justify-content-end align-items-center align-self-center'>
                 <form id='internal-form' action='' className='position-relative'>
                   <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -1595,14 +1595,14 @@ export default function DataUpload() {
                 </form>
               </div>
             </div>
-            <div className='row mb-2 ms-1 me-1'>
+            <div className='row mb-2'>
               <div className='col-12'>
                 <div className='table-responsive table-general-'>
-                  <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle'>
+                  <table className='table table-sm table-striped table-bordered border-light table-rounded- align-middle mb-1'>
                     <thead>
                       <tr>
                         <th scope="col" className='th-width-xs-'>
-                          <div className='d-flex flex-row justify-content-start align-items-center align-self-center w-100'>
+                          <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                             <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                               <div className='checks-radios-'>
                                 <label>
@@ -1656,7 +1656,7 @@ export default function DataUpload() {
                 </div>
               </div>
             </div>
-            <div className='row mt-2 mb-4 ms-1 me-1'>
+            <div className='row mt-4 mb-4'>
               <div className='col-12 d-flex flex-row justify-content-center align-items-center align-self-center'>
                 <Pagination
                   pageCount={pageCount}
@@ -1665,7 +1665,7 @@ export default function DataUpload() {
                 />
               </div>
             </div>
-            <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1'>
+            <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4'>
               <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
                 <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" data-bs-toggle="offcanvas" data-bs-target="#import-characterization" aria-controls="import-characterization">
                   <FontAwesomeIcon className='me-2' icon={faFloppyDisk} size="sm"/>
@@ -1673,7 +1673,7 @@ export default function DataUpload() {
                 </button>
               </div>
             </div>
-            <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5 ms-1 me-1'>
+            <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5'>
               <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start align-items-center align-self-center'>
                 <div className="row mb-3">
                   <div className="col-12">
@@ -1685,11 +1685,11 @@ export default function DataUpload() {
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">No falla</p>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Falla</p>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
                   </div>
                 </div>
               </div>
@@ -1713,7 +1713,7 @@ export default function DataUpload() {
                 </div>
               </div>
             </div>
-            <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4 ms-1 me-1'>
+            <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
