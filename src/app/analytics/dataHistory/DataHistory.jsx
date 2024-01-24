@@ -360,7 +360,8 @@ export default function DataHistory() {
           <div className="w-auto">
             <input type="radio" className="btn-check" name="options-table-models"
               id="table-type-machine-learning-model" checked={typeModelHistory === "machine_learning_model"} onChange={() => changeRadioModelHistory("machine_learning_model")} />
-            <label className="btn rounded-pill btn-transparent- btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3" htmlFor="table-type-machine-learning-model"> Modelo de Aprendizaje automático
+            <label className="btn rounded-pill d-flex flex-row justify-content-center align-items-center align-self-center btn-transparent- btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3" htmlFor="table-type-machine-learning-model"> 
+              <i className='fa icon-machine-learning me-2'></i><span>Modelo de Aprendizaje automático</span> 
             </label>
           </div>
         </div>
@@ -368,9 +369,9 @@ export default function DataHistory() {
           <div className="w-auto">
             <input type="radio" className="btn-check" name="options-table-models" id="table-type-computer-vision-model" checked={typeModelHistory === "computer_vision_model"} onChange={() => changeRadioModelHistory("computer_vision_model")
               } />
-            <label className="btn rounded-pill btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3"
+            <label className="btn rounded-pill d-flex flex-row justify-content-center align-items-center align-self-center btn-radio- bs-1- ps-4 pe-4 pt-3 pb-3"
               htmlFor="table-type-computer-vision-model">
-              Modelo de Visión por computador
+                <i className='fa icon-computer-vision me-2'></i><span>Modelo de Visión por computador</span>
             </label>
           </div>
         </div>

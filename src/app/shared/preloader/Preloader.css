@@ -22,8 +22,8 @@
   height: 100px;
   margin: auto;
   bottom: 0px;
-  top: -35px;
-  left: -10px;
+  top: 0px;
+  left: 0px;
   right: 0px;
   position: absolute;
 }
@@ -177,15 +177,13 @@
     ----------------------------------------------------- */
 
   .preloader {
-    width: 75px;
-    height: 75px;
-    top: -25px;
-    left: -10px;
+    width: 70px;
+    height: 70px;
   }
 
   .loader {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
   }
 
   .txt-loading {
@@ -207,8 +205,6 @@
   .preloader {
     width: 80px;
     height: 80px;
-    top: -25px;
-    left: -10px;
   }
 
   .loader {
@@ -233,15 +229,13 @@
     ----------------------------------------------------- */
 
   .preloader {
-    width: 95px;
-    height: 95px;
-    top: -40px;
-    left: -10px;
+    width: 90px;
+    height: 90px;
   }
 
   .loader {
-    width: 95px;
-    height: 95px;
+    width: 90px;
+    height: 90px;
   }
 
   .txt-loading {
@@ -263,8 +257,6 @@
   .preloader {
     width: 100px;
     height: 100px;
-    top: -35px;
-    left: -10px;
   }
 
   .loader {
@@ -291,8 +283,6 @@
   .preloader {
     width: 100px;
     height: 100px;
-    top: -35px;
-    left: -10px;
   }
 
   .loader {
@@ -319,8 +309,6 @@
   .preloader {
     width: 100px;
     height: 100px;
-    top: -35px;
-    left: -10px;
   }
 
   .loader {
@@ -347,8 +335,6 @@
   .preloader {
     width: 100px;
     height: 100px;
-    top: -35px;
-    left: -10px;
   }
 
   .loader {
@@ -375,8 +361,6 @@
   .preloader {
     width: 100px;
     height: 100px;
-    top: -35px;
-    left: -10px;
   }
 
   .loader {
