@@ -161,11 +161,11 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url('assets/icons/icomoon.eot?tmjkx9');
-  src: url('assets/icons/icomoon.eot?tmjkx9#iefix') format('embedded-opentype'),
-    url('assets/icons/icomoon.ttf?tmjkx9') format('truetype'),
-    url('assets/icons/icomoon.woff?tmjkx9') format('woff'),
-    url('assets/icons/icomoon.svg?tmjkx9#icomoon') format('svg');
+  src:  url('assets/icons/icomoon.eot?b0ht2d');
+  src:  url('assets/icons/icomoon.eot?b0ht2d#iefix') format('embedded-opentype'),
+    url('assets/icons/icomoon.ttf?b0ht2d') format('truetype'),
+    url('assets/icons/icomoon.woff?b0ht2d') format('woff'),
+    url('assets/icons/icomoon.svg?b0ht2d#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -197,6 +197,11 @@
 .icon-computer-vision:before {
   font-size: 22px;
   content: "\e901";
+}
+
+.icon-download-file:before {
+  font-size: 14px;
+  content: "\e902";
 }
 
 /* ---------------------------------------------------

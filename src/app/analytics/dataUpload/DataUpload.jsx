@@ -5,7 +5,7 @@ import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpFromBracket, faFileExport, faFloppyDisk, faXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket, faFloppyDisk, faXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
 import $ from "jquery"
@@ -985,7 +985,7 @@ export default function DataUpload() {
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Importar datos</span></button>
             </div>
             <div className="col-auto">
-              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><FontAwesomeIcon className='me-2' icon={faFileExport} size="sm"/>
+              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Descargar plantilla</span></button>
             </div>
           </div>
