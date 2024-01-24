@@ -625,8 +625,9 @@ export default function DataUpload() {
       },
       toolbox: {
         show: true,
-        orient: 'horizontal',
+        orient: 'vertical',
         showTitle: false,
+        right: '12px',
         feature: {
           dataZoom: {
             show: true,
@@ -936,6 +937,24 @@ export default function DataUpload() {
         chartRelevanceCharacteristics.resize();
       }
     };
+
+    const handleWindowResize = () => {
+      const windowWidth = window.innerWidth;
+
+      // Ajustar opciones del toolbox y visualMap en función del ancho de la ventana
+      if (windowWidth < 576 || windowWidth > 1920) {
+        optionRelevanceCharacteristics.toolbox.show = false;
+        optionRelevanceCharacteristics.visualMap.show = false;
+      } else {
+        optionRelevanceCharacteristics.toolbox.show = true;
+        optionRelevanceCharacteristics.visualMap.show = true;
+      }
+
+      chartRelevanceCharacteristics.setOption(optionRelevanceCharacteristics);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+    handleWindowResize();
   
     // Evento para actualizar la altura cuando se abre el offcanvas
     $('#relevance-characteristics').on('shown.bs.offcanvas', updateChartHeight);
