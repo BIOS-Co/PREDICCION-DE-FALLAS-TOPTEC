@@ -12,65 +12,6 @@
   height: auto;
 }
 
-.navbar-bg-clip-path- {
-  visibility: inherit;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  -webkit-backdrop-filter: blur(13px);
-  backdrop-filter: blur(13px);
-}
-
-.nav-link {
-  color: var(--color-primary-black-);
-  font-weight: normal;
-  position: relative;
-  display: inline-block;
-}
-
-.nav-link::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -2px;
-  transform-origin: center top;
-  transform: scaleX(0);
-  transition: transform 0.6s ease-out;
-  border-top: 2px solid var(--color-primary-red-);
-}
-
-.nav-link:hover::before {
-  transform: scaleY(1);
-}
-
-.nav-link:hover {
-  color: var(--color-primary-red-) !important;
-  font-weight: bold !important;
-}
-
-.nav-link.active::before {
-  transform: scaleX(1);
-  border-top: 0px solid transparent;
-}
-
-.navbar-toggler {
-  border-color: rgba(0, 0, 0, 0) !important;
-}
-
-.navbar-toggler-icon {
-  display: inline-block;
-  width: 1em !important;
-  height: 1em !important;
-  vertical-align: middle;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNCIgdmlld0JveD0iMCAwIDQ0OCA1MTIiPjwhLS0hRm9udCBBd2Vzb21lIEZyZWUgNi41LjEgYnkgQGZvbnRhd2Vzb21lIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20gTGljZW5zZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tL2xpY2Vuc2UvZnJlZSBDb3B5cmlnaHQgMjAyNCBGb250aWNvbnMsIEluYy4tLT48cGF0aCBkPSJNMCA5NkMwIDc4LjMgMTQuMyA2NCAzMiA2NEg0MTZjMTcuNyAwIDMyIDE0LjMgMzIgMzJzLTE0LjMgMzItMzIgMzJIMzJDMTQuMyAxMjggMCAxMTMuNyAwIDk2ek0wIDI1NmMwLTE3LjcgMTQuMy0zMiAzMi0zMkg0MTZjMTcuNyAwIDMyIDE0LjMgMzIgMzJzLTE0LjMgMzItMzIgMzJIMzJjLTE3LjcgMC0zMi0xNC4zLTMyLTMyek00NDggNDE2YzAgMTcuNy0xNC4zIDMyLTMyIDMySDMyYy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMySDQxNmMxNy43IDAgMzIgMTQuMyAzMiAzMnoiLz48L3N2Zz4=") !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
-}
-
-.navbar-collapse-background {
-  background-color: transparent !important;
-}
-
 /* BACKGROUND MOVE BACK TO */
 
 .back-to- {

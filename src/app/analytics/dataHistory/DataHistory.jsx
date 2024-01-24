@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
