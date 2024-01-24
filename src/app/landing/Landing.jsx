@@ -24,7 +24,7 @@ export default function Landing() {
   return (
     <React.Fragment>
       {/* <Preloader></Preloader> */}
-      <div className='container-fluid vw-100 min-h- p-0 position-relative ps-0 pe-0 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4 animate__animated animate__fadeIn animate__faster'>
+      <div className='container-fluid vw-100 min-h- p-0 position-relative ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4 animate__animated animate__fadeIn animate__faster'>
         <div className='row mb-4'>
           <div className='col-12'>
             <nav className='navbar navbar-expand pt-0 pb-0 d-flex flex-row justify-content-end align-items-center align-self-center navbar-bg-clip-path-'>

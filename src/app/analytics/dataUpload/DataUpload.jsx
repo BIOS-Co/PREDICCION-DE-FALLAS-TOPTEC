@@ -1256,7 +1256,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="manual-characterization" aria-labelledby="manual-characterization" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
+        <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos manuales
           </h2>
@@ -1533,7 +1533,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="relevance-characteristics" aria-labelledby="relevance-characteristics" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
+        <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Relevancia de características
           </h2>
@@ -1561,7 +1561,7 @@ export default function DataUpload() {
         </div>
       </div>
       <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="import-characterization" aria-labelledby="import-characterization" data-bs-scroll="false">
-        <div className="offcanvas-header pt-4 pb-4 ps-1 pe-1 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-3 pe-lg-3 ps-xl-3 pe-xl-3 ps-xxl-3 pe-xxl-3">
+        <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos importados
           </h2>
