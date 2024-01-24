@@ -1,0 +1,484 @@
+/* ---------------------------------------------------
+    BUTTONS LANDING
+  ----------------------------------------------------- */
+
+.wrapper-buttons-landing- {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+/* BUTTON UPLOAD */
+
+.btn-upload- {
+  font-family: var(--font-family-regular-oswald-);
+  font-weight: bold;
+  font-size: 24px;
+  letter-spacing: 1px;
+  border: none;
+  width: 230px;
+  height: 230px;
+  padding: 10px 10px;
+  border-radius: 20px;
+  color: var(--color-tertiary-black-);
+  background-color: var(--back-color);
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, .2),
+    inset 7px 7px 15px rgba(55, 84, 170, 0),
+    inset -7px -7px 20px rgba(255, 255, 255, 0),
+    0px 0px 4px rgba(255, 255, 255, 0) !important;
+  transition: box-shadow .25s ease !important;
+}
+
+.btn-upload-:hover {
+  font-size: 24px;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 20px;
+  color: var(--color-secondary-blue-);
+  background-color: var(--back-color);
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+  transition: box-shadow .25s ease !important;
+}
+
+.btn-upload-:active {
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+}
+
+.btn-upload-:focus {
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+}
+
+/* BUTTON HISTORY */
+
+.btn-history- {
+  font-family: var(--font-family-regular-oswald-);
+  font-weight: bold;
+  font-size: 24px;
+  letter-spacing: 1px;
+  border: none;
+  width: 230px;
+  height: 230px;
+  padding: 10px 10px;
+  border-radius: 20px;
+  color: var(--color-tertiary-black-);
+  background-color: var(--back-color);
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, .2),
+    inset 7px 7px 15px rgba(55, 84, 170, 0),
+    inset -7px -7px 20px rgba(255, 255, 255, 0),
+    0px 0px 4px rgba(255, 255, 255, 0) !important;
+  transition: box-shadow .25s ease !important;
+}
+
+.btn-history-:hover {
+  font-size: 24px;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 20px;
+  color: var(--color-primary-yellow-);
+  background-color: var(--back-color);
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+  transition: box-shadow .25s ease !important;
+}
+
+.btn-history-:active {
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+}
+
+.btn-history-:focus {
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+}
+
+/* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+.wrapper-footer- {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES TOPTEC
+  ----------------------------------------------------- */
+
+@media (min-width: 0px) and (max-width: 359.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: relative;
+    transform: inherit;
+    top: inherit;
+    left: inherit;
+  }
+
+  .btn-upload- {
+    font-size: 14px;
+    width: 150px;
+    height: 150px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 14px;
+  }
+
+  .btn-history- {
+    font-size: 14px;
+    width: 150px;
+    height: 150px;
+  }
+
+  .btn-history-:hover {
+    font-size: 14px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: relative;
+  }
+
+}
+
+@media (min-width: 360px) and (max-width: 575.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: relative;
+    transform: inherit;
+    top: inherit;
+    left: inherit;
+  }
+
+  .btn-upload- {
+    font-size: 18px;
+    width: 170px;
+    height: 170px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 18px;
+  }
+
+  .btn-history- {
+    font-size: 18px;
+    width: 170px;
+    height: 170px;
+  }
+
+  .btn-history-:hover {
+    font-size: 18px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: relative;
+  }
+
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 22px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 22px;
+  }
+
+  .btn-history- {
+    font-size: 22px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .btn-history-:hover {
+    font-size: 22px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 24px;
+  }
+
+  .btn-history- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-history-:hover {
+    font-size: 24px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 22px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 22px;
+  }
+
+  .btn-history- {
+    font-size: 22px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .btn-history-:hover {
+    font-size: 22px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 24px;
+  }
+
+  .btn-history- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-history-:hover {
+    font-size: 24px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}
+
+@media (min-width: 1400px) and (max-width: 1919.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 24px;
+  }
+
+  .btn-history- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-history-:hover {
+    font-size: 24px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}
+
+@media (min-width: 1920px) and (max-width: 2699.98px) {
+
+  /* ---------------------------------------------------
+        BUTTONS LANDING
+      ----------------------------------------------------- */
+
+  .wrapper-buttons-landing- {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-upload- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-upload-:hover {
+    font-size: 24px;
+  }
+
+  .btn-history- {
+    font-size: 24px;
+    width: 230px;
+    height: 230px;
+  }
+
+  .btn-history-:hover {
+    font-size: 24px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
+}

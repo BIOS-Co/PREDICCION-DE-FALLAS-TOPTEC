@@ -1,0 +1,173 @@
+/* ---------------------------------------------------
+  CARDS
+----------------------------------------------------- */
+
+.wrapper-variable-card- {
+  width: auto;
+  min-width: auto;
+  white-space: normal !important;
+  color: var(--color-tertiary-black-);
+  transition: all 0.2s ease;
+}
+
+.wrapper-variable-card-:hover {
+  color: var(--color-secondary-blue-);
+}
+
+.wrapper-variable-card- .wrapper-name-variable- {
+  width: auto !important;
+}
+
+#variable-card .card {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background-color: var(--color-primary-white-) !important;
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, .2),
+    inset 7px 7px 15px rgba(55, 84, 170, 0),
+    inset -7px -7px 20px rgba(255, 255, 255, 0),
+    0px 0px 4px rgba(255, 255, 255, 0) !important;
+  border-radius: 0.938rem !important;
+  -webkit-border-radius: 0.938rem !important;
+  -moz-border-radius: 0.938rem !important;
+  -khtml-border-radius: 0.938rem !important;
+  transition: box-shadow .25s ease !important;
+}
+
+#variable-card .card:hover {
+  background-color: var(--color-primary-white-) !important;
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, .15),
+    -7px -7px 20px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0),
+    inset 7px 7px 15px rgba(55, 84, 170, .15),
+    inset -7px -7px 20px rgba(255, 255, 255, 1),
+    0px 0px 4px rgba(255, 255, 255, .2) !important;
+  transition: box-shadow .25s ease !important;
+}
+
+#relevance-chart- .wrapper-relevance-chart- {
+  height: 76vh !important;
+}
+
+#relevance-chart- .wrapper-relevance-chart->div>div:first-of-type {
+  width: auto !important;
+  position: relative !important;
+}
+
+#relevance-chart- .wrapper-relevance-chart->div>div:first-of-type canvas {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES TOPTEC
+  ----------------------------------------------------- */
+
+@media (min-width: 0px) and (max-width: 359.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 200px;
+    height: 200px;
+  }
+
+}
+
+@media (min-width: 360px) and (max-width: 575.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 200px;
+    height: 200px;
+  }
+
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 180px;
+    height: 180px;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 180px;
+    height: 180px;
+  }
+
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 210px;
+    height: 210px;
+  }
+
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 214px;
+    height: 214px;
+  }
+
+}
+
+@media (min-width: 1400px) and (max-width: 1919.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 200px;
+    height: 200px;
+  }
+
+}
+
+@media (min-width: 1920px) and (max-width: 2699.98px) {
+
+  /* ---------------------------------------------------
+    CARDS
+  ----------------------------------------------------- */
+
+  #variable-card .card {
+    width: 180px;
+    height: 180px;
+  }
+
+}
