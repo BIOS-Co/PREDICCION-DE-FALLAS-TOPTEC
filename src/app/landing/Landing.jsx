@@ -1,13 +1,22 @@
 import './Landing.css'
 import LogoToptec from '../../assets/images/logo-toptec.png';
-import React from 'react'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpFromBracket, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import Preloader from '../shared/preloader/Preloader';
+import Swal from 'sweetalert2';
 
 export default function Landing() {
+
+  useEffect(() => {
+    Swal.fire({
+      icon: "error",
+      title: "Titulo de prueba",
+      text: "Esto es un texto de prueba para validar como se ve esta alerta"
+    });
+  }, []);
 
   /* INTERNAL NAVIGATION */
 
