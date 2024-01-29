@@ -10,13 +10,13 @@ import Swal from 'sweetalert2';
 
 export default function Landing() {
 
-  useEffect(() => {
+  /* useEffect(() => {
     Swal.fire({
       icon: "error",
       title: "Titulo de prueba",
       text: "Esto es un texto de prueba para validar como se ve esta alerta"
     });
-  }, []);
+  }, []); */
 
   /* INTERNAL NAVIGATION */
 

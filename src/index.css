@@ -2722,6 +2722,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     right: 1rem;
   }
 
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 250px;
+    min-height: 280px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 100px;
+  }
+
 }
 
 @media (min-width: 360px) and (max-width: 575.98px) {
@@ -2795,6 +2809,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 36px !important;
     height: 36px !important;
     right: 1rem;
+  }
+
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 250px;
+    min-height: 280px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 100px;
   }
 
 }
@@ -2872,6 +2900,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     right: 1.5rem;
   }
 
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 280px;
+    min-height: 290px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 115px;
+  }
+
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -2945,6 +2987,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 40px !important;
     height: 40px !important;
     right: 2rem;
+  }
+
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 300px;
+    min-height: 300px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 125px;
   }
 
 }
@@ -3022,6 +3078,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     right: 2rem;
   }
 
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 300px;
+    min-height: 300px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 125px;
+  }
+
 }
 
 @media (min-width: 1200px) and (max-width: 1399.98px) {
@@ -3095,6 +3165,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 40px !important;
     height: 40px !important;
     right: 2rem;
+  }
+
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 300px;
+    min-height: 300px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 125px;
   }
 
 }
@@ -3172,6 +3256,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     right: 2rem;
   }
 
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 300px;
+    min-height: 300px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 125px;
+  }
+
 }
 
 @media (min-width: 1920px) and (max-width: 2699.98px) {
@@ -3245,6 +3343,20 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 40px !important;
     height: 40px !important;
     right: 2rem;
+  }
+
+  /* ---------------------------------------------------
+      DROP AREA INPUT-FILE
+  ----------------------------------------------------- */
+
+  .file-drop-area- {
+    width: 300px;
+    min-height: 300px;
+    max-height: 450px;
+  }
+
+  .file-drop-area- .image-upload- {
+    width: 125px;
   }
 
 }
