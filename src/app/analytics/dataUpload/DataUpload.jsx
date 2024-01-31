@@ -1603,14 +1603,7 @@ export default function DataUpload() {
                       <tr>
                         <th scope="col" className='th-width-xs-'>
                           <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                            <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
-                              <div className='checks-radios-'>
-                                <label>
-                                  <input type="checkbox" name="radio"/>
-                                  <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
-                                </label>
-                              </div>
-                            </div>
+                            <span className='fs-6-'></span>
                           </div>
                         </th>
                         <th scope="col" className='th-width-auto-'>
@@ -1663,14 +1656,6 @@ export default function DataUpload() {
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
                 />
-              </div>
-            </div>
-            <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4'>
-              <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-                <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" data-bs-toggle="offcanvas" data-bs-target="#import-characterization" aria-controls="import-characterization">
-                  <FontAwesomeIcon className='me-2' icon={faFloppyDisk} size="sm"/>
-                  <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Guardar histórico</span>
-                </button>
               </div>
             </div>
             <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5'>
