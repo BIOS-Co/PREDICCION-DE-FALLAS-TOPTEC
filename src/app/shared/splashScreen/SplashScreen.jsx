@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 
 export default function SplashScreen() {
 
+  // Código que el Splashscreen ejecute la animación animate__fadeIn pasados 5 segundos
+
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
