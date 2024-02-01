@@ -1,6 +1,6 @@
 import DropArea from '../../../assets/images/bg_upload_file.png';
 import UploadIcon from '../../../assets/images/upload-file.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
@@ -9,6 +9,7 @@ import { faArrowUpFromBracket, faXmark, faMagnifyingGlass, faSpinner } from '@fo
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
 import $ from "jquery"
+import { get_machine } from '../../../services/load/load_data';
 
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
@@ -1000,6 +1001,23 @@ export default function DataUpload() {
   const toggleRelevanceCharacteristics = () => {
     setShowRelevanceCharacteristics(!showRelevanceCharacteristics);
   };
+
+useEffect(()=>{
+  getMachines()
+},[])
+
+  const getMachines = async () => {
+let response = await get_machine().catch((e)=>{
+  console.log(e)
+})
+if(response)
+{
+  console.log(response)
+}
+  }
+
+
+
 
   return (
     <React.Fragment>
