@@ -1,11 +1,11 @@
 import DropArea from '../../../assets/images/bg_upload_file.png';
 import UploadIcon from '../../../assets/images/upload-file.svg';
-import React from 'react'
+import React, { useState } from 'react';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpFromBracket, faFloppyDisk, faXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket, faXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
 import $ from "jquery"
@@ -969,6 +969,38 @@ export default function DataUpload() {
   const [pageIndex, setPageIndex] = React.useState(1);
   let pageCount = 10;
 
+  const [showManualCharacterization, setShowManualCharacterization] = useState(false);
+  const [showImportCharacterization, setShowImportCharacterization] = useState(false);
+  const [showRelevanceCharacteristics, setShowRelevanceCharacteristics] = useState(false);
+
+  // Efecto para aplicar y eliminar la clase al abrir y cerrar el Offcanvas
+  React.useEffect(() => {
+    const body = document.body;
+
+    if (showManualCharacterization || showImportCharacterization || showRelevanceCharacteristics) {
+      body.classList.add('body-overflow-hidden');
+    } else {
+      body.classList.remove('body-overflow-hidden');
+    }
+
+    // Limpiar al desmontar el componente
+    return () => {
+      body.classList.remove('body-overflow-hidden');
+    };
+  }, [showManualCharacterization, showImportCharacterization, showRelevanceCharacteristics]);
+
+  const toggleManualCharacterization = () => {
+    setShowManualCharacterization(!showManualCharacterization);
+  };
+
+  const toggleImportCharacterization = () => {
+    setShowImportCharacterization(!showImportCharacterization);
+  };
+
+  const toggleRelevanceCharacteristics = () => {
+    setShowRelevanceCharacteristics(!showRelevanceCharacteristics);
+  };
+
   return (
     <React.Fragment>
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
@@ -1244,7 +1276,7 @@ export default function DataUpload() {
                 </div>
                 <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-2 mb-4'>
                   <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-                    <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" data-bs-toggle="offcanvas" data-bs-target="#manual-characterization" aria-controls="manual-characterization">
+                    <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleManualCharacterization} data-bs-target="#manual-characterization" aria-controls="manual-characterization">
                       <FontAwesomeIcon className='me-2' icon={faSpinner} size="sm"/>
                       <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Procesar</span>
                     </button>
@@ -1255,12 +1287,12 @@ export default function DataUpload() {
           </form>
         </div>
       </div>
-      <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="manual-characterization" aria-labelledby="manual-characterization" data-bs-scroll="false">
+      <div className={`offcanvas offcanvas-bottom offcanvas-bottom- manual-characterization- ${showManualCharacterization ? 'show' : ''}`} tabIndex="-1" data-bs-backdrop="false" id="manual-characterization" aria-labelledby="manual-characterization" data-bs-scroll="false">
         <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos manuales
           </h2>
-          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas">
+          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleManualCharacterization}>
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
@@ -1310,7 +1342,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
@@ -1323,7 +1355,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
@@ -1336,7 +1368,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
@@ -1349,7 +1381,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
@@ -1362,7 +1394,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
@@ -1375,7 +1407,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
@@ -1388,7 +1420,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
@@ -1401,7 +1433,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
@@ -1414,7 +1446,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
@@ -1427,7 +1459,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
@@ -1440,7 +1472,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
@@ -1453,7 +1485,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
@@ -1466,7 +1498,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
@@ -1479,7 +1511,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
@@ -1492,7 +1524,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
@@ -1505,7 +1537,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
@@ -1518,7 +1550,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
@@ -1532,12 +1564,12 @@ export default function DataUpload() {
           </div>
         </div>
       </div>
-      <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="relevance-characteristics" aria-labelledby="relevance-characteristics" data-bs-scroll="false">
+      <div className={`offcanvas offcanvas-bottom offcanvas-bottom- relevance-characteristics- ${showRelevanceCharacteristics ? 'show' : ''}`} tabIndex="-1" data-bs-backdrop="false" id="relevance-characteristics" aria-labelledby="relevance-characteristics" data-bs-scroll="false">
         <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Relevancia de características
           </h2>
-          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas">
+          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleRelevanceCharacteristics}>
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
@@ -1560,12 +1592,12 @@ export default function DataUpload() {
           </div>
         </div>
       </div>
-      <div className="offcanvas offcanvas-bottom offcanvas-bottom-" tabIndex="-1" data-bs-backdrop="false" id="import-characterization" aria-labelledby="import-characterization" data-bs-scroll="false">
+      <div className={`offcanvas offcanvas-bottom offcanvas-bottom- import-characterization- ${showImportCharacterization ? 'show' : ''}`} tabIndex="-1" data-bs-backdrop="false" id="import-characterization" aria-labelledby="import-characterization" data-bs-scroll="false">
         <div className="offcanvas-header pt-4 pb-4 ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-4 pe-md-4 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos importados
           </h2>
-          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas">
+          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleImportCharacterization}>
             <FontAwesomeIcon icon={faXmark} size="lg"/>
           </button>
         </div>
@@ -1702,7 +1734,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
@@ -1715,7 +1747,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
@@ -1728,7 +1760,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
@@ -1741,7 +1773,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
@@ -1754,7 +1786,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
@@ -1767,7 +1799,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
@@ -1780,7 +1812,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
@@ -1793,7 +1825,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
@@ -1806,7 +1838,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
@@ -1819,7 +1851,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
@@ -1832,7 +1864,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
@@ -1845,7 +1877,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
@@ -1858,7 +1890,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
@@ -1871,7 +1903,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
@@ -1884,7 +1916,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
@@ -1897,7 +1929,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-green-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
@@ -1910,7 +1942,7 @@ export default function DataUpload() {
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" data-bs-toggle="offcanvas" data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
                       <div className='mt-3 wrapper-name-variable-'>
                         <div className='w-auto pt-1 bt-primary-red-'>
                           <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
@@ -1974,7 +2006,7 @@ export default function DataUpload() {
               </div>
               <div className='row gx-2 d-flex flex-row justify-content-center align-items-start align-self-start mt-4 mb-2'>
                 <div className='col-auto'>
-                <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" data-bs-toggle="offcanvas" data-bs-target="#import-characterization" aria-controls="import-characterization">
+                <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
                   <FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
                   <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Subir</span>
                 </button>
