@@ -1,4 +1,16 @@
 /* ---------------------------------------------------
+  OFFCANVAS DATA MANUAL - IMPORT DATA AND RELEVANCE CHARACTERISTICS
+----------------------------------------------------- */
+
+.import-characterization-, .manual-characterization- {
+  z-index: 1045 !important;
+}
+
+.relevance-characteristics- {
+  z-index: 1046 !important;
+}
+
+/* ---------------------------------------------------
   CARDS
 ----------------------------------------------------- */
 

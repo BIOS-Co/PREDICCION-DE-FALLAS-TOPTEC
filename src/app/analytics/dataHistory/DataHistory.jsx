@@ -649,6 +649,11 @@ export default function DataHistory() {
                         <span className='fs-6-'>Placas buenas</span>
                       </div>
                     </th>
+                    <th scope="col" rowSpan="2" className='th-width-sm- no-relevance- align-middle'>
+                      <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                        <span className='fs-6-'>Placas malas</span>
+                      </div>
+                    </th>
                     <th scope="col" colSpan="11" className='th-width-auto-  relevance- align-middle'>
                       <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                         <span className='fs-6-'>Características de defectos</span>
@@ -731,6 +736,9 @@ export default function DataHistory() {
                     <td className='align-middle'>
                       <p className='m-0 lh-sm fs-5- text-center'>10</p>
                     </td>
+                    <td className='align-middle'>
+                      <p className='m-0 lh-sm fs-5- text-center'>10</p>
+                    </td>
                     <td className='align-middle relevance-'>
                       <p className='m-0 lh-sm fs-5- text-center'>5</p>
                     </td>
@@ -782,6 +790,9 @@ export default function DataHistory() {
                     <td className='align-middle'>
                       <p className='m-0 lh-sm fs-5- text-center'>10</p>
                     </td>
+                    <td className='align-middle'>
+                      <p className='m-0 lh-sm fs-5- text-center'>10</p>
+                    </td>
                     <td className='align-middle relevance-'>
                       <p className='m-0 lh-sm fs-5- text-center'>5</p>
                     </td>
@@ -829,6 +840,9 @@ export default function DataHistory() {
                     </td>
                     <td className='align-middle'>
                       <p className='m-0 lh-sm fs-5- text-center'>23/01/24 9:28</p>
+                    </td>
+                    <td className='align-middle'>
+                      <p className='m-0 lh-sm fs-5- text-center'>10</p>
                     </td>
                     <td className='align-middle'>
                       <p className='m-0 lh-sm fs-5- text-center'>10</p>

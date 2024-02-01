@@ -1,6 +1,6 @@
 import './Landing.css'
 import LogoToptec from '../../assets/images/logo-toptec.png';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 
 export default function Landing() {
 
+  // Alerta de prueba para ejecutar el Sweetalert
+
   /* useEffect(() => {
     Swal.fire({
       icon: "error",
@@ -18,7 +20,7 @@ export default function Landing() {
     });
   }, []); */
 
-  /* INTERNAL NAVIGATION */
+  // Navegación interna entre componentes
 
   const navigate = useNavigate();
 
@@ -30,10 +32,31 @@ export default function Landing() {
     navigate('/analytics/dataHistory');
   }
 
+  // Código para que una vez se cargue la animación se elimine todas las clases que conlleva realizarla
+
+  const [animationFinished, setAnimationFinished] = useState(false);
+
+  useEffect(() => {
+    const onAnimationEnd = () => {
+      setAnimationFinished(true);
+    };
+
+    // Agregar el evento de finalización de la animación al montar el componente
+    document.querySelector('.container-fluid').addEventListener('animationend', onAnimationEnd);
+
+    // Iniciar la animación al montar el componente
+    document.querySelector('.container-fluid').classList.add('animate__animated', 'animate__fadeIn', 'animate__faster');
+
+    // Eliminar el evento al desmontar el componente para evitar fugas de memoria
+    return () => {
+      document.querySelector('.container-fluid').removeEventListener('animationend', onAnimationEnd);
+    };
+  }, []); // El array vacío asegura que el efecto se ejecute solo una vez al montar el componente
+
   return (
     <React.Fragment>
       {/* <Preloader></Preloader> */}
-      <div className='container-fluid vw-100 min-h- p-0 position-relative ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4 animate__animated animate__fadeIn animate__faster'>
+      <div className={`container-fluid vw-100 min-h- p-0 position-relative ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4 ${animationFinished ? '' : 'animate__animated animate__fadeIn animate__faster'}`}>
         <div className='row mb-4'>
           <div className='col-12'>
             <nav className='navbar navbar-expand pt-0 pb-0 d-flex flex-row justify-content-end align-items-center align-self-center navbar-bg-clip-path-'>
