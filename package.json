@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "date-fns": "^2.29.3",
     "echarts": "^5.4.0",
+    "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.1",
     "pagination-for-reactjs-component": "^2.1.6",
