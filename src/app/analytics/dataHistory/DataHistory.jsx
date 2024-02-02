@@ -3,8 +3,10 @@ import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
 import DatePicker from "react-multi-date-picker";
+import Preloader from '../../shared/preloader/Preloader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClockRotateLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { get_history_1, generate_excel_1 } from '../../../services/daHistory/load_data';
 
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
@@ -277,10 +279,10 @@ const selectRegistersStyles = {
  */
 
 const SelectRegisters = [
-  { value: 1, label: "5" },
-  { value: 2, label: "15" },
-  { value: 3, label: "25" },
-  { value: 4, label: "50" },
+  { value: 5, label: "5" },
+  { value: 15, label: "15" },
+  { value: 25, label: "25" },
+  { value: 50, label: "50" },
 ];
 
 /**
@@ -331,8 +333,12 @@ const weekDays = [
 
 export default function DataHistory() {
 
+  const [charging, setCharging] = React.useState(false);
+
   const [pageIndex, setPageIndex] = React.useState(1);
-  let pageCount = 10;
+  const [pageCount, setPageCount] = React.useState(10);
+  const [show, setShow] = useState(5);
+  const [filter, setFilter] = useState('');
 
   const minDate = new Date(2021, 0, 1);
   const maxDate = new Date(2100, 11, 31);
@@ -342,9 +348,175 @@ export default function DataHistory() {
   };
 
   const [typeModelHistory, setModelHistory] = useState("machine_learning_model");
+  const [subList, setSubList] = useState([]);
+
+  //definicion de variables
+  const [historyData, setHistoryData] = React.useState([]);
+
+ 
+
+  const getHistory = async () => {
+    let response = await get_history_1().catch((e) => {
+      console.log(e);
+    });
+    if (response && response.data && response.data.dat_predictions) {
+      // Asumiendo que response.data.dat_predictions es un arreglo
+      const dataWithCheckbox = response.data.dat_predictions.map(item => ({
+        ...item, // Toma todas las propiedades existentes del objeto
+        isSelected: false // Añade la propiedad isSelected inicializada en false
+      }));
+      setHistoryData(dataWithCheckbox);
+    } else {
+      // Maneja el caso de que no haya datos o el formato sea inesperado
+      console.log('No data received or data is in unexpected format');
+    }
+    setCharging(false)
+  };
+
+  React.useEffect(() => {
+    getHistory()
+    setCharging(true)
+  }, [])
+
+
+// filtro del buscador
+
+const changeFilter = ({ target }) => {
+  setFilter(target.value);
+  let filteredData = historyData; // Usa todo historyData si no hay filtro
+
+  if (target.value !== '') {
+    filteredData = historyData.filter(item => {
+      // Simplifica la lógica de filtrado si es posible
+      return Object.keys(item).some(key =>
+        key !== 'id' && key !== 'checked' && key !== 'history' && String(item[key]).toUpperCase().includes(target.value.toUpperCase())
+      );
+    });
+  }
+
+  // Aplica la paginación al conjunto de datos filtrados
+  const paginatedData = filteredData.slice(0, show);
+  setSubList(paginatedData);
+  setPageCount(Math.ceil(filteredData.length / show));
+};
+
+
+
+/// paginacion
+ 
+const obtainSubList = () => {
+  let index1 = (pageIndex - 1) * show;
+  let index2 = pageIndex * show;
+  let array = historyData.slice(index1, index2);
+  setSubList(array);
+
+};
+
+React.useEffect(() => {
+
+    obtainSubList();
+
+  setPageCount(Math.ceil((historyData.length + 1) / show));
+}, [pageIndex, show, historyData]);
+
+React.useEffect(() => {
+  // Asegúrate de trabajar con los datos filtrados para la paginación
+  let currentData = filter ? historyData.filter(item => {
+    return Object.keys(item).some(key =>
+      key !== 'id' && key !== 'checked' && key !== 'history' && String(item[key]).toUpperCase().includes(filter.toUpperCase())
+    );
+  }) : historyData;
+
+  const paginatedData = currentData.slice((pageIndex - 1) * show, pageIndex * show);
+  setSubList(paginatedData);
+
+  // Ajusta pageCount basado en los datos filtrados
+  setPageCount(Math.ceil(currentData.length / show));
+}, [pageIndex, show, filter, historyData]); // Incluye `filter` en las dependencias
+
+
+// manejar los checkbox
+
+const handleCheckboxChange = (id) => {
+  const newData = historyData.map(item => {
+    if (item.id === id) {
+      return { ...item, isSelected: !item.isSelected };
+    }
+    return item;
+  });
+  setHistoryData(newData);
+};
+
+// funcion para exportar los excel
+const exportSelected = async () => {
+  setCharging(true); // Supongo que esto es para mostrar algún indicador de carga
+
+  const selectedData = historyData.filter(item => item.isSelected).map(item => ({
+    // Prepara los datos con los campos requeridos
+    mala: item.mala,
+    lote: item.Lote ? item.Lote : item.id, // Usa Lote si existe, de lo contrario, usa id
+    registration: item.registration
+  }));
+
+  try {
+    // Utiliza generate_excel_1 para enviar los datos al backend
+    const response = await generate_excel_1(selectedData);
+
+    // Procesa la respuesta y descarga el archivo
+    const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+
+    const contentDisposition = response.headers['content-disposition'];
+    let filename = 'DatPrediction.xlsx'; // Nombre por defecto
+    if (contentDisposition) {
+      const matches = contentDisposition.match(/filename="?(.+)"?/);
+      if (matches.length === 2) filename = matches[1];
+    }
+    link.setAttribute('download', filename);
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Cambia isSelected a false para todos los elementos después de la exportación
+    const updatedHistoryData = historyData.map(item => ({
+      ...item,
+      isSelected: false // Desmarca todos los elementos
+    }));
+    setHistoryData(updatedHistoryData);
+  } catch (error) {
+    console.error('Error al exportar los datos seleccionados:', error);
+  } finally {
+    // Asegúrate de detener el indicador de carga independientemente del resultado
+    setCharging(false);
+  }
+};
+
+
+
+
+
+
+console.log("historyData", historyData)
+console.log("pageCount", pageCount)
+console.log("subList", subList)
+
 
   return (
     <React.Fragment>
+ {
+        charging 
+        ?
+        (
+          <Preloader />
+        )
+        :
+        (
+          null
+        )
+      }
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
           <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
@@ -403,7 +575,7 @@ export default function DataHistory() {
                       fixMainPosition={true}
                       shadow={true}
                       animation={true}
-                      arrowStyle={{
+                      arrowStyle={{ 
                         display: "none"
                       }}
                     />
@@ -417,7 +589,7 @@ export default function DataHistory() {
             <div className='col-12'>
               <form action="" className='position-relative wrapper-search- d-block d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block'>
                 <div className='form-search inner-addon- left-addon-'>
-                  <input type="text" className='form-control search-' id="buscador-modulos" placeholder="Buscar" />
+                  <input type="text" className='form-control search-' id="buscador-modulos" placeholder="Buscar" value={filter} onChange={changeFilter}/>
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
               </form>
@@ -429,7 +601,7 @@ export default function DataHistory() {
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                   <div className='col-auto d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-center align-items-center align-self-center me-auto'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='select-registers' options={SelectRegisters} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq'/>
+                      <Select id='select-registers' options={SelectRegisters} onChange={(option)=> setShow(option.value)} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq'/>
                         <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
@@ -473,70 +645,37 @@ export default function DataHistory() {
                     </tr>
                   </thead>
                   <tbody>
+                  {subList?.map((data, index) => (
                     <tr>
                       <td className='align-middle'>
                         <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                           <div className='checks-radios-'>
                             <label>
-                              <input type="checkbox" name="radio"/>
+                            <input
+                              type="checkbox"
+                              checked={data.isSelected}
+                              onChange={() => handleCheckboxChange(data.id)}
+                            />
                               <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
                             </label>
                           </div>
                         </div>
                       </td>
                       <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>Lote 1</p>
+                      <p className='m-0 lh-sm fs-5- text-center'>
+                        {data.Lote ? data.Lote : data.id}
+                      </p>
+                    </td>
+                      <td className='align-middle'>
+                        <p className='m-0 lh-sm fs-5- text-center'>{data.registration}</p>
                       </td>
                       <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>23/01/24</p>
+                        <p className='m-0 lh-sm fs-5- text-center'>{data.mala}</p>
                       </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>20</p>
-                      </td>
+       
                     </tr>
-                    <tr>
-                      <td className='align-middle'>
-                        <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
-                          <div className='checks-radios-'>
-                            <label>
-                              <input type="checkbox" name="radio"/>
-                              <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
-                            </label>
-                          </div>
-                        </div>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>Lote 2</p>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>23/01/24</p>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>20</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className='align-middle'>
-                        <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
-                          <div className='checks-radios-'>
-                            <label>
-                              <input type="checkbox" name="radio"/>
-                              <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
-                            </label>
-                          </div>
-                        </div>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>Lote 3</p>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>23/01/24</p>
-                      </td>
-                      <td className='align-middle'>
-                        <p className='m-0 lh-sm fs-5- text-center'>20</p>
-                      </td>
-                    </tr>
-                  </tbody>
+                    )) }
+                    </tbody>
                 </table>
               </div>
             </div>
@@ -544,15 +683,15 @@ export default function DataHistory() {
           <div className='row mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 d-flex flex-row justify-content-center align-items-center align-self-center'>
               <Pagination
-                pageCount={pageCount}
-                pageIndex={pageIndex}
-                setPageIndex={setPageIndex}
+              pageCount={pageCount}
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
               />
             </div>
           </div>
           <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
+              <button type='button' onClick={exportSelected} className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Exportar</span>
               </button>
             </div>

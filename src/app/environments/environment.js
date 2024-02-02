@@ -13,4 +13,9 @@ export const environment = {
     get_all: 'predict/load-feature/',
     post_excel: 'predict/process-data-excel/',
 
+
+    // historico 1
+    get_history1 : 'predict/dat-predictions/',
+    get_excel1 : 'predict/generate-excel/',
+
 }
