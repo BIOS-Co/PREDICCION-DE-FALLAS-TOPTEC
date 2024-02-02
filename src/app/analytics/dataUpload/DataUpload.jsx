@@ -9,7 +9,7 @@ import { faArrowUpFromBracket, faXmark, faMagnifyingGlass, faSpinner } from '@fo
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
 import $ from "jquery"
-import { get_machine } from '../../../services/load/load_data';
+import { get_machine, get_processes, post_data } from '../../../services/load/load_data';
 
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
@@ -63,66 +63,69 @@ const selectStyles = {
   * Estilos del separador del select
   * Estilos del icono de cerrar del select
   */
-  indicatorsContainer: (styles) => ({ ...styles, 
-    marginTop: '-10px !important', 
+  indicatorsContainer: (styles) => ({
+    ...styles,
+    marginTop: '-10px !important',
   }),
-  dropdownIndicator: (styles) => ({ ...styles, 
-    color: "#212529", 
-    padding: 0, paddingTop: '0.34rem !important', 
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: "#212529",
+    padding: 0, paddingTop: '0.34rem !important',
     paddingRight: '0.5rem !important',
     width: '25px',
     height: '25px',
     "&:hover": {
       color: "#212529",
-    } 
+    }
   }),
   indicatorSeparator: (styles) => ({ ...styles, display: "none" }),
-  clearIndicator: (styles) => ({ ...styles, 
-    color: "#212529", 
-    padding: 0, 
+  clearIndicator: (styles) => ({
+    ...styles,
+    color: "#212529",
+    padding: 0,
     paddingTop: '0.05rem !important',
     width: '15px',
     height: '15px',
     "&:hover": {
       color: "#212529",
-    } 
+    }
   }),
   /**
   * ESTILOS DEL INPUT GLOBAL
   */
   control: () => ({
-  fontSize: 14,
-  display: "flex",
-  alignItems: "center",
-  alignSelf: "start",
-  justifyContent: "start",
-  height: 'auto',
-  minHeight: 48,
-  maxHeight: 150,
-  paddingLeft: '0.8rem',
-  paddingTop: '0.3rem',
-  width: "100%",
-  backgroundColor: 'var(--back-color)',
-  borderRadius: '50rem',
-  boxShadow: 'inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF',
-  boxSizing: 'border-box',
-  transition: 'all 0.2s ease-in-out',
-  appearance: 'none',
-  "-webkit-appearance": {
+    fontSize: 14,
+    display: "flex",
+    alignItems: "center",
+    alignSelf: "start",
+    justifyContent: "start",
+    height: 'auto',
+    minHeight: 48,
+    maxHeight: 150,
+    paddingLeft: '0.8rem',
+    paddingTop: '0.3rem',
+    width: "100%",
+    backgroundColor: 'var(--back-color)',
+    borderRadius: '50rem',
+    boxShadow: 'inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF',
+    boxSizing: 'border-box',
+    transition: 'all 0.2s ease-in-out',
     appearance: 'none',
-  },
-  borderBottom: "0px solid transparent",
+    "-webkit-appearance": {
+      appearance: 'none',
+    },
+    borderBottom: "0px solid transparent",
   }),
   /**
   * ESTILOS DEL INPUT
   */
   input: (provided) => ({
-  ...provided,
-  color: '#728998',
-  fontSize: 13,
-  textTransform: "uppercase",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  gridArea: '1/1/2/2',
+    ...provided,
+    color: '#728998',
+    fontSize: 13,
+    textTransform: "uppercase",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    gridArea: '1/1/2/2',
     overflow: 'hidden',
     textAlign: 'start',
     textOverflow: 'ellipsis',
@@ -132,23 +135,23 @@ const selectStyles = {
   * ESTILOS DEL MENU DESPLEGABLE DEL SELECT
   */
   menu: (styles) => ({
-  ...styles,
-  border: 'none',
-  backgroundColor: 'rgba(255, 255, 255, 1)',
-  boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
-  borderRadius: '1rem',
-  padding: 0,
-  marginTop: 8,
-  marginBottom: 0,
-  height: 'auto',
-  minHeight: 'auto',
-  maxHeight: 300,
-  overflow: "hidden",
-  color: '#728998',
-  fontSize: 12,
-  textTransform: "uppercase",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  zIndex: 2,
+    ...styles,
+    border: 'none',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
+    borderRadius: '1rem',
+    padding: 0,
+    marginTop: 8,
+    marginBottom: 0,
+    height: 'auto',
+    minHeight: 'auto',
+    maxHeight: 300,
+    overflow: "hidden",
+    color: '#728998',
+    fontSize: 12,
+    textTransform: "uppercase",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    zIndex: 2,
   }),
   menuList: () => ({
     paddingTop: 0,
@@ -175,77 +178,77 @@ const selectStyles = {
   * ESTILOS DE LAS OPCIONES DESPLEGABLES
   */
   option: (provided, state) => ({
-  ...provided,
-  fontSize: 11,
-  textTransform: "uppercase",
-  backgroundColor: state.isSelected ? "var(--color-secondary-blue-)" : "rgba(255, 255, 255, 1)",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  padding: '0.5rem 0.8rem 0.5rem 0.8rem',
-  borderRadius: '1rem',
-  ":hover": {
-  background: "var(--color-secondary-blue-)",
-  color: '#FFFFFF',
-  }
+    ...provided,
+    fontSize: 11,
+    textTransform: "uppercase",
+    backgroundColor: state.isSelected ? "var(--color-secondary-blue-)" : "rgba(255, 255, 255, 1)",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    padding: '0.5rem 0.8rem 0.5rem 0.8rem',
+    borderRadius: '1rem',
+    ":hover": {
+      background: "var(--color-secondary-blue-)",
+      color: '#FFFFFF',
+    }
   }),
   /**
   * ESTILOS DEL CONTENEDOR
   */
   container: (provided, state) => ({
-  ...provided,
-  marginTop: 0,
-  width: '100%',
-  position: 'relative',
-  flex: '1 1 auto'
+    ...provided,
+    marginTop: 0,
+    width: '100%',
+    position: 'relative',
+    flex: '1 1 auto'
   }),
   valueContainer: (provided, state) => ({
-  ...provided,
-  overflow: "visible",
-  position: "relative",
-  top: "4px"
+    ...provided,
+    overflow: "visible",
+    position: "relative",
+    top: "4px"
   }),
   /**
   * ESTILOS PLACEHOLDER DEL INPUT
   */
   placeholder: (provided, state) => ({
-  ...provided,
-  width: '100%',
-  position: "absolute",
-  top: state.hasValue || state.selectProps.inputValue ? -10 : "0%",
-  left: state.hasValue || state.selectProps.inputValue ? -0 : "0%",
-  transition: "top 0.1s, font-size 0.1s",
-  color: state.hasValue || state.selectProps.inputValue ? 'var(--color-quaternary-gray-)' : 'var(--color-primary-blue-)',
-  fontSize: state.hasValue || state.selectProps.inputValue ? 11 : "12px",
-  lineHeight: 1.25,
-  fontFamily: 'var(--font-family-regular-noto-)',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  overflow: 'hidden',
-  textAlign: 'start',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap'
-  }),
-  /**
-  * ESTILOS TEXTO EN EL INPUT
-  */
-  singleValue: (styles) => ({ 
-  ...styles, 
-  fontSize: 12,
-  textTransform: "uppercase",
-  color: "var(--color-quaternary-gray-)", 
-  fontFamily: 'var(--font-family-regular-noto-)', 
-  padding: '3px',
-  margin: '0px',
-  marginTop: '2px',
-  marginLeft: 0,
-  marginRight: 0,
-  gridArea: '1/1/2/2',
+    ...provided,
+    width: '100%',
+    position: "absolute",
+    top: state.hasValue || state.selectProps.inputValue ? -10 : "0%",
+    left: state.hasValue || state.selectProps.inputValue ? -0 : "0%",
+    transition: "top 0.1s, font-size 0.1s",
+    color: state.hasValue || state.selectProps.inputValue ? 'var(--color-quaternary-gray-)' : 'var(--color-primary-blue-)',
+    fontSize: state.hasValue || state.selectProps.inputValue ? 11 : "12px",
+    lineHeight: 1.25,
+    fontFamily: 'var(--font-family-regular-noto-)',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
     overflow: 'hidden',
     textAlign: 'start',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   }),
-  multiValue: (styles) => ({ 
-    ...styles, 
+  /**
+  * ESTILOS TEXTO EN EL INPUT
+  */
+  singleValue: (styles) => ({
+    ...styles,
+    fontSize: 12,
+    textTransform: "uppercase",
+    color: "var(--color-quaternary-gray-)",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    padding: '3px',
+    margin: '0px',
+    marginTop: '2px',
+    marginLeft: 0,
+    marginRight: 0,
+    gridArea: '1/1/2/2',
+    overflow: 'hidden',
+    textAlign: 'start',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  }),
+  multiValue: (styles) => ({
+    ...styles,
     backgroundColor: 'rgba(255, 255, 255, 1)',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
     borderRadius: '0.5rem',
@@ -286,29 +289,32 @@ const selectRegistersStyles = {
   * Estilos del separador del select
   * Estilos del icono de cerrar del select
   */
-  indicatorsContainer: (styles) => ({ ...styles, 
-    marginTop: '-10px !important', 
+  indicatorsContainer: (styles) => ({
+    ...styles,
+    marginTop: '-10px !important',
   }),
-  dropdownIndicator: (styles) => ({ ...styles, 
-    color: "#212529", 
-    padding: 0, paddingTop: '0.34rem !important', 
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: "#212529",
+    padding: 0, paddingTop: '0.34rem !important',
     paddingRight: '0.5rem !important',
     width: '25px',
     height: '25px',
     "&:hover": {
       color: "#212529",
-    } 
+    }
   }),
   indicatorSeparator: (styles) => ({ ...styles, display: "none" }),
-  clearIndicator: (styles) => ({ ...styles, 
-    color: "#212529", 
-    padding: 0, 
+  clearIndicator: (styles) => ({
+    ...styles,
+    color: "#212529",
+    padding: 0,
     paddingTop: '0.05rem !important',
     width: '15px',
     height: '15px',
     "&:hover": {
       color: "#212529",
-    } 
+    }
   }),
   /**
    * ESTILOS DEL INPUT GLOBAL
@@ -341,12 +347,12 @@ const selectRegistersStyles = {
   * ESTILOS DEL INPUT
   */
   input: (provided) => ({
-  ...provided,
-  color: '#728998',
-  fontSize: 13,
-  textTransform: "uppercase",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  gridArea: '1/1/2/2',
+    ...provided,
+    color: '#728998',
+    fontSize: 13,
+    textTransform: "uppercase",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    gridArea: '1/1/2/2',
     overflow: 'hidden',
     textAlign: 'start',
     textOverflow: 'ellipsis',
@@ -356,23 +362,23 @@ const selectRegistersStyles = {
   * ESTILOS DEL MENU DESPLEGABLE DEL SELECT
   */
   menu: (styles) => ({
-  ...styles,
-  border: 'none',
-  backgroundColor: 'rgba(255, 255, 255, 1)',
-  boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
-  borderRadius: '1rem',
-  padding: 0,
-  marginTop: 8,
-  marginBottom: 0,
-  height: 'auto',
-  minHeight: 'auto',
-  maxHeight: 300,
-  overflow: "hidden",
-  color: '#728998',
-  fontSize: 12,
-  textTransform: "uppercase",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  zIndex: 2,
+    ...styles,
+    border: 'none',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
+    borderRadius: '1rem',
+    padding: 0,
+    marginTop: 8,
+    marginBottom: 0,
+    height: 'auto',
+    minHeight: 'auto',
+    maxHeight: 300,
+    overflow: "hidden",
+    color: '#728998',
+    fontSize: 12,
+    textTransform: "uppercase",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    zIndex: 2,
   }),
   menuList: () => ({
     paddingTop: 0,
@@ -399,77 +405,77 @@ const selectRegistersStyles = {
   * ESTILOS DE LAS OPCIONES DESPLEGABLES
   */
   option: (provided, state) => ({
-  ...provided,
-  fontSize: 11,
-  textTransform: "uppercase",
-  backgroundColor: state.isSelected ? "var(--color-secondary-blue-)" : "rgba(255, 255, 255, 1)",
-  fontFamily: 'var(--font-family-regular-noto-)',
-  padding: '0.5rem 0.8rem 0.5rem 0.8rem',
-  borderRadius: '1rem',
-  ":hover": {
-  background: "var(--color-secondary-blue-)",
-  color: '#FFFFFF',
-  }
+    ...provided,
+    fontSize: 11,
+    textTransform: "uppercase",
+    backgroundColor: state.isSelected ? "var(--color-secondary-blue-)" : "rgba(255, 255, 255, 1)",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    padding: '0.5rem 0.8rem 0.5rem 0.8rem',
+    borderRadius: '1rem',
+    ":hover": {
+      background: "var(--color-secondary-blue-)",
+      color: '#FFFFFF',
+    }
   }),
   /**
   * ESTILOS DEL CONTENEDOR
   */
   container: (provided, state) => ({
-  ...provided,
-  marginTop: 0,
-  width: '100%',
-  position: 'relative',
-  flex: '1 1 auto'
+    ...provided,
+    marginTop: 0,
+    width: '100%',
+    position: 'relative',
+    flex: '1 1 auto'
   }),
   valueContainer: (provided, state) => ({
-  ...provided,
-  overflow: "visible",
-  position: "relative",
-  top: "4px"
+    ...provided,
+    overflow: "visible",
+    position: "relative",
+    top: "4px"
   }),
   /**
   * ESTILOS PLACEHOLDER DEL INPUT
   */
   placeholder: (provided, state) => ({
-  ...provided,
-  width: '100%',
-  position: "absolute",
-  top: state.hasValue || state.selectProps.inputValue ? -10 : "0%",
-  left: state.hasValue || state.selectProps.inputValue ? -0 : "0%",
-  transition: "top 0.1s, font-size 0.1s",
-  color: state.hasValue || state.selectProps.inputValue ? 'var(--color-quaternary-gray-)' : 'var(--color-primary-blue-)',
-  fontSize: state.hasValue || state.selectProps.inputValue ? 11 : "12px",
-  lineHeight: 1.25,
-  fontFamily: 'var(--font-family-regular-noto-)',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  overflow: 'hidden',
-  textAlign: 'start',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap'
-  }),
-  /**
-  * ESTILOS TEXTO EN EL INPUT
-  */
-  singleValue: (styles) => ({ 
-  ...styles, 
-  fontSize: 12,
-  textTransform: "uppercase",
-  color: "var(--color-quaternary-gray-)", 
-  fontFamily: 'var(--font-family-regular-noto-)', 
-  padding: '3px',
-  margin: '0px',
-  marginTop: '2px',
-  marginLeft: 0,
-  marginRight: 0,
-  gridArea: '1/1/2/2',
+    ...provided,
+    width: '100%',
+    position: "absolute",
+    top: state.hasValue || state.selectProps.inputValue ? -10 : "0%",
+    left: state.hasValue || state.selectProps.inputValue ? -0 : "0%",
+    transition: "top 0.1s, font-size 0.1s",
+    color: state.hasValue || state.selectProps.inputValue ? 'var(--color-quaternary-gray-)' : 'var(--color-primary-blue-)',
+    fontSize: state.hasValue || state.selectProps.inputValue ? 11 : "12px",
+    lineHeight: 1.25,
+    fontFamily: 'var(--font-family-regular-noto-)',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
     overflow: 'hidden',
     textAlign: 'start',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   }),
-  multiValue: (styles) => ({ 
-    ...styles, 
+  /**
+  * ESTILOS TEXTO EN EL INPUT
+  */
+  singleValue: (styles) => ({
+    ...styles,
+    fontSize: 12,
+    textTransform: "uppercase",
+    color: "var(--color-quaternary-gray-)",
+    fontFamily: 'var(--font-family-regular-noto-)',
+    padding: '3px',
+    margin: '0px',
+    marginTop: '2px',
+    marginLeft: 0,
+    marginRight: 0,
+    gridArea: '1/1/2/2',
+    overflow: 'hidden',
+    textAlign: 'start',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  }),
+  multiValue: (styles) => ({
+    ...styles,
     backgroundColor: 'rgba(255, 255, 255, 1)',
     boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 6px 0px',
     borderRadius: '0.5rem',
@@ -523,7 +529,7 @@ const SelectRegisters = [
 
 export default function DataUpload() {
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
 
     /**
      * GRAFICA MEDICAL HISTORY 2 (BAR CHART)
@@ -534,7 +540,7 @@ export default function DataUpload() {
 
     const dataRelevanceCharacteristics = [
       { nameCharacteristics: 'Característica 1', valueCharacteristics: 5 },
-      { nameCharacteristics: 'Característica 2', valueCharacteristics: 90},
+      { nameCharacteristics: 'Característica 2', valueCharacteristics: 90 },
       { nameCharacteristics: 'Característica 3', valueCharacteristics: 60 },
       { nameCharacteristics: 'Característica 4', valueCharacteristics: 80 },
       { nameCharacteristics: 'Característica 5', valueCharacteristics: 25 },
@@ -573,7 +579,7 @@ export default function DataUpload() {
         textStyle: {
           color: '#212529',
           fontSize: 12,
-          lineHeight:10,
+          lineHeight: 10,
           fontWeight: 'normal',
           fontFamily: 'NotoSans-Regular, Verdana'
         },
@@ -585,7 +591,7 @@ export default function DataUpload() {
         left: 'center',
         top: 10,
         bottom: 20,
-        itemGap : 25,
+        itemGap: 25,
         width: '90%',
         inactiveColor: '#6D7587',
         textStyle: {
@@ -604,21 +610,21 @@ export default function DataUpload() {
           fontFamily: 'NotoSans-Regular, Verdana',
         },
         icon: 'circle',
-        formatter : function(params, value){
+        formatter: function (params, value) {
           var newParamsName = "";
           var paramsNameNumber = params.length;
           var provideNumber = 50;
           var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
           if (paramsNameNumber > provideNumber) {
-              for (var p = 0; p < rowNumber; p++) {
-                var tempStr = "";
-                if (p === rowNumber - 1) {
-                    tempStr = (params.length > 6 ? (params.slice(0,50)+"...") : '' );
-                } else {}
-                newParamsName += tempStr;
-              }
+            for (var p = 0; p < rowNumber; p++) {
+              var tempStr = "";
+              if (p === rowNumber - 1) {
+                tempStr = (params.length > 6 ? (params.slice(0, 50) + "...") : '');
+              } else { }
+              newParamsName += tempStr;
+            }
           } else {
-              newParamsName = params;
+            newParamsName = params;
           }
           return newParamsName
         },
@@ -720,19 +726,19 @@ export default function DataUpload() {
             fontFamily: 'NotoSans-Regular, Verdana'
           },
           axisLabel: {
-            formatter : function(params, value){
+            formatter: function (params, value) {
               var newParamsName = "";
               var paramsNameNumber = params.length;
               var provideNumber = 12;
               var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
               if (paramsNameNumber > provideNumber) {
-                  for (var p = 0; p < rowNumber; p++) {
-                    var tempStr = "";
-                    if (p === rowNumber - 1) {
-                        tempStr = (params.length > 6 ? (params.slice(0,12)+"...") : '' );
-                    } else {}
-                    newParamsName += tempStr;
-                  }
+                for (var p = 0; p < rowNumber; p++) {
+                  var tempStr = "";
+                  if (p === rowNumber - 1) {
+                    tempStr = (params.length > 6 ? (params.slice(0, 12) + "...") : '');
+                  } else { }
+                  newParamsName += tempStr;
+                }
               } else {
                 newParamsName = params;
               }
@@ -762,19 +768,19 @@ export default function DataUpload() {
             fontFamily: 'NotoSans-Regular, Verdana'
           },
           axisLabel: {
-            formatter : function(params, value){
+            formatter: function (params, value) {
               var newParamsName = "";
               var paramsNameNumber = params.length;
               var provideNumber = 12;
               var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
               if (paramsNameNumber > provideNumber) {
-                  for (var p = 0; p < rowNumber; p++) {
-                    var tempStr = "";
-                    if (p === rowNumber - 1) {
-                        tempStr = (params.length > 6 ? (params.slice(0,12)+"...") : '' );
-                    } else {}
-                    newParamsName += tempStr;
-                  }
+                for (var p = 0; p < rowNumber; p++) {
+                  var tempStr = "";
+                  if (p === rowNumber - 1) {
+                    tempStr = (params.length > 6 ? (params.slice(0, 12) + "...") : '');
+                  } else { }
+                  newParamsName += tempStr;
+                }
               } else {
                 newParamsName = params;
               }
@@ -801,7 +807,7 @@ export default function DataUpload() {
         max: 100,
         text: ['Máximo', 'Mínimo'],
         inRange: {
-            color: ['#9AC331', '#FFDE00', '#FF0018']
+          color: ['#9AC331', '#FFDE00', '#FF0018']
         },
         textStyle: {
           color: '#212529',
@@ -927,8 +933,8 @@ export default function DataUpload() {
 
     optionRelevanceCharacteristics && chartRelevanceCharacteristics.setOption(optionRelevanceCharacteristics);
 
-    $(window).on('resize', function(){
-      if(chartRelevanceCharacteristics != null && chartRelevanceCharacteristics !== undefined){
+    $(window).on('resize', function () {
+      if (chartRelevanceCharacteristics != null && chartRelevanceCharacteristics !== undefined) {
         chartRelevanceCharacteristics.resize();
       }
     });
@@ -956,16 +962,16 @@ export default function DataUpload() {
 
     window.addEventListener('resize', handleWindowResize);
     handleWindowResize();
-  
+
     // Evento para actualizar la altura cuando se abre el offcanvas
     $('#relevance-characteristics').on('shown.bs.offcanvas', updateChartHeight);
-  
+
     // Limpiar el evento cuando el componente se desmonta
     return () => {
       $('#relevance-characteristics').off('shown.bs.offcanvas', updateChartHeight);
     };
 
-  },[])
+  }, [])
 
   const [pageIndex, setPageIndex] = React.useState(1);
   let pageCount = 10;
@@ -1002,36 +1008,134 @@ export default function DataUpload() {
     setShowRelevanceCharacteristics(!showRelevanceCharacteristics);
   };
 
-useEffect(()=>{
-  getMachines()
-},[])
+  useEffect(() => {
+    getDataIni()
+  }, [])
 
-  const getMachines = async () => {
-let response = await get_machine().catch((e)=>{
-  console.log(e)
-})
-if(response)
-{
-  console.log(response)
-}
+  const [optionsoProcesses, setOptionProcesses] = useState([])
+  const [optionsMachine, setOptionMachine] = useState([])
+  const getDataIni = async () => {
+    let response = await get_machine().catch((e) => {
+      console.log(e)
+    })
+    if (response) {
+      console.log(response)
+      const transformedOptions = response.data.map((opcion) => ({
+        value: opcion.id,
+        label: opcion.name  
+      }));
+      setOptionMachine(transformedOptions)
+    }
+
+    let response2 = await get_processes().catch((e)=>{
+      console.log(e)
+    })
+    if(response2){
+      console.log(response2)
+      const transformedOptions2 = response2.data.map((opcion) => ({
+        value: opcion.id,
+        label: opcion.name  
+      }));
+      setOptionProcesses(transformedOptions2)
+    }
   }
 
+  const [valores, setValores] = useState({
+    PP_Hidro_Cemento_Kg: '',
+    PP_Hidro_Carbonato_Kg: '',
+    PP_Hidro_Silice_Kg: '',
+    PP_Hidro_Celulosa_Kg: '',
+    PP_Hidro_Hidroxido_Kg: '',
+    PP_Hidro_Bentonita_Kg: '',
+    PP_Hidro_SolReales_porcentage: '',
+    PP_Hidro_CelulosaS_porcentage: '',
+    PP_Hidro_CelulosaSR_SR_grados: '',
+    PP_Refi_EE_AMP: '',
+    PP_Refi_CelulosaH_porcentage: '',
+    PP_Refi_CelulosaS_porcentage: '',
+    PP_Refi_CelulosaSR_SR_grados: '',
+    PP_Maq_FlujoFloc_L_min: '',
+    PP_Maq_Resi_ml: '',
+    PP_Maq_Vueltas_N: '',
+    PP_Maq_Vel_m_min: '',
+    PP_Maq_FormatoP_PSI: '',
+    PP_Maq_FlujoFlocForm_L_Placa: '',
+    PP_Maq_VacíoCP_PulgadasHg: '',
+    PP_Maq_VacioSF_PulgadasHg: '',
+    PP_Maq_Recir__porcentage: '',
+    PP_Maq_Fieltro_Dias: '',
+    PP_PF_Humedad__porcentage: '',
+    PP_PF_Espesor_mm: '',
+    PP_PF_Dens_g_cm3: '',
+    PP_Maq_FlocCanalS__porcentage: '',
+    PP_Maq_FlocTkS__porcentage: '',
+    PP_Maq_FlocFormS__porcentage: '',
+    PP_MaqTCE_Densidad_g_cm3: '',
+    PP_Maq_TCES__porcentage: '',
+    PP_Maq_CilinS__porcentage: '',
+    PP_Maq_Cono1S__porcentage: '',
+    PP_Maq_MolinoS__porcentage: '',
+    PP_Maq_P1H__porcentage: '',
+    PP_Maq_P3H__porcentage: '',
+  });
+  const isFormValid = () => {
+    for (const key in valores) {
+      if (!valores[key]) {
+        return false; // Si un campo está vacío, retorna false
+      }
+    }
+    return true; // Si todos los campos tienen valores, retorna true
+  };
+  // Función para manejar cambios en los inputs
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
+    // Actualizar el estado con el nuevo valor
+    setValores({
+      ...valores,
+      [name]: value,
+    });
+    
+  };
 
+  const handleSelectChange = (event, label)=>{
+    setValores({
+      ...valores,
+      [label]:event.value,
+    });
+  }
+
+const sendData = async  () => {
+  console.log(valores)
+  let ok = isFormValid()
+  if(ok){
+    console.log('ok')
+    let response3 = await post_data(valores).catch((e)=>{
+      console.log(e)
+    })
+    if(response3){
+      console.log(response3)
+       toggleManualCharacterization()
+
+    }
+  }else{
+    console.log('debe de llenar todos los campos')
+  }
+}
 
   return (
     <React.Fragment>
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
           <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
-            <FontAwesomeIcon className='fs-2- me-2' icon={faArrowUpFromBracket}/>
+            <FontAwesomeIcon className='fs-2- me-2' icon={faArrowUpFromBracket} />
             <h3 className="m-0 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">Cargar datos</h3>
           </div>
         </div>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1 gap-1 d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-4 mt-sm-4 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
           <div className='row g-3 g-sm-3 g-md-2 g-lg-2 g-xl-2 g-xxl-2 d-flex flex-row justify-content-center align-items-center align-self-center'>
             <div className="col-auto">
-              <button type='button' className="btn-neumorphic- btn-primary-yellow- d-flex flex-row justify-content-center align-items-center align-self-center" data-bs-toggle="modal" data-bs-target="#upload-file"><FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
+              <button type='button' className="btn-neumorphic- btn-primary-yellow- d-flex flex-row justify-content-center align-items-center align-self-center" data-bs-toggle="modal" data-bs-target="#upload-file"><FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm" />
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Importar datos</span></button>
             </div>
             <div className="col-auto">
@@ -1054,17 +1158,17 @@ if(response)
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-4'>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='maq' options={Maq} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq'/>
-                        <i className='fa icon-id-type fs-xs'></i>
+                      <Select id='maq' options={optionsMachine} onChange={(event)=>handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
+                      <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='process' options={Process} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process'/>
-                        <i className='fa icon-id-type fs-xs'></i>
+                      <Select id='process' options={optionsoProcesses}  onChange={(event)=>handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
+                      <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
-              </div>
+                </div>
               </div>
             </div>
             <div className='row mb-4'>
@@ -1077,225 +1181,225 @@ if(response)
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-4'>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Cemento_Kg' placeholder="PP HIDRO CEMENTO (KG)" name='PP_Hidro_Cemento_Kg' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Cemento_Kg' placeholder="PP HIDRO CEMENTO (KG)" name='PP_Hidro_Cemento_Kg' />
                       <label>PP HIDRO CEMENTO (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Carbonato_Kg' placeholder="PP HIDRO CARBONATO (KG)" name='PP_Hidro_Carbonato_Kg'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Carbonato_Kg' placeholder="PP HIDRO CARBONATO (KG)" name='PP_Hidro_Carbonato_Kg' />
                       <label>PP HIDRO CARBONATO (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Silice_Kg' placeholder="PP HIDRO SILICE (KG)" name='PP_Hidro_Silice_Kg'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Silice_Kg' placeholder="PP HIDRO SILICE (KG)" name='PP_Hidro_Silice_Kg' />
                       <label>PP HIDRO SILICE (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Celulosa_Kg' placeholder="PP HIDRO CELULOSA (KG)" name='PP_Hidro_Celulosa_Kg'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Celulosa_Kg' placeholder="PP HIDRO CELULOSA (KG)" name='PP_Hidro_Celulosa_Kg' />
                       <label>PP HIDRO CELULOSA (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Hidroxido_Kg' placeholder="PP HIDRO HIDROXIDO (KG)" name='PP_Hidro_Hidroxido_Kg' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Hidroxido_Kg' placeholder="PP HIDRO HIDROXIDO (KG)" name='PP_Hidro_Hidroxido_Kg' />
                       <label>PP HIDRO HIDROXIDO (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_Bentonita_Kg' placeholder="PP HIDRO BENTONITA (KG)" name='PP_Hidro_Bentonita_Kg'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_Bentonita_Kg' placeholder="PP HIDRO BENTONITA (KG)" name='PP_Hidro_Bentonita_Kg' />
                       <label>PP HIDRO BENTONITA (KG)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_SolReales_porcentage' placeholder="PP HIDRO SOL REALES (%)" name='PP_Hidro_SolReales_porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_SolReales_porcentage' placeholder="PP HIDRO SOL REALES (%)" name='PP_Hidro_SolReales_porcentage' />
                       <label>PP HIDRO SOL REALES (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_CelulosaS_porcentage' placeholder="PP HIDRO CELULOSA S (%)" name='PP_Hidro_CelulosaS_porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_CelulosaS_porcentage' placeholder="PP HIDRO CELULOSA S (%)" name='PP_Hidro_CelulosaS_porcentage' />
                       <label>PP HIDRO CELULOSA S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Hidro_CelulosaSR_SR_grados' placeholder="PP HIDRO CELULOSA SR (°)" name='PP_Hidro_CelulosaSR_SR_grados' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Hidro_CelulosaSR_SR_grados' placeholder="PP HIDRO CELULOSA SR (°)" name='PP_Hidro_CelulosaSR_SR_grados' />
                       <label>PP HIDRO CELULOSA SR (°)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Refi_EE_AMP' placeholder="PP REFI EE AMP" name='PP_Refi_EE_AMP'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Refi_EE_AMP' placeholder="PP REFI EE AMP" name='PP_Refi_EE_AMP' />
                       <label>PP REFI EE AMP</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Refi_CelulosaH_porcentage' placeholder="PP REFI CELULOSA H (%)" name='PP_Refi_CelulosaH_porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Refi_CelulosaH_porcentage' placeholder="PP REFI CELULOSA H (%)" name='PP_Refi_CelulosaH_porcentage' />
                       <label>PP REFI CELULOSA H (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Refi_CelulosaS_porcentage' placeholder="PP REFI CELULOSA S (%)" name='PP_Refi_CelulosaS_porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Refi_CelulosaS_porcentage' placeholder="PP REFI CELULOSA S (%)" name='PP_Refi_CelulosaS_porcentage' />
                       <label>PP REFI CELULOSA S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Refi_CelulosaSR_SR_grados' placeholder="PP REFI CELULOSA SR (°)" name='PP_Refi_CelulosaSR_SR_grados' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Refi_CelulosaSR_SR_grados' placeholder="PP REFI CELULOSA SR (°)" name='PP_Refi_CelulosaSR_SR_grados' />
                       <label>PP REFI CELULOSA SR (°)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FlujoFloc_L_min' placeholder="PP MAQ FLUJO FLOC (L/Min)" name='PP_Maq_FlujoFloc_L_min'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FlujoFloc_L_min' placeholder="PP MAQ FLUJO FLOC (L/Min)" name='PP_Maq_FlujoFloc_L_min' />
                       <label>PP MAQ FLUJO FLOC (L/MIN)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Resi_ml' placeholder="PP MAQ RESI (Ml)" name='PP_Maq_Resi_ml'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Resi_ml' placeholder="PP MAQ RESI (Ml)" name='PP_Maq_Resi_ml' />
                       <label>PP MAQ RESI (Ml)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Vueltas_N' placeholder="PP MAQ VUELTAS N" name='PP_Maq_Vueltas_N'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Vueltas_N' placeholder="PP MAQ VUELTAS N" name='PP_Maq_Vueltas_N' />
                       <label>PP MAQ VUELTAS N</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Vel_m_min' placeholder="PP MAQ VEL (M/MIN)" name='PP_Maq_Vel_m_min' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Vel_m_min' placeholder="PP MAQ VEL (M/MIN)" name='PP_Maq_Vel_m_min' />
                       <label>PP MAQ VEL (M/MIN)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FormatoP_PSI' placeholder="PP MAQ FORMATO P PSI" name='PP_Maq_FormatoP_PSI'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FormatoP_PSI' placeholder="PP MAQ FORMATO P PSI" name='PP_Maq_FormatoP_PSI' />
                       <label>PP MAQ FORMATO P PSI</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FlujoFlocForm_L_Placa' placeholder="PP MAQ FLUJO FLOC FORM (L/Placa)" name='PP_Maq_FlujoFlocForm_L_Placa'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FlujoFlocForm_L_Placa' placeholder="PP MAQ FLUJO FLOC FORM (L/Placa)" name='PP_Maq_FlujoFlocForm_L_Placa' />
                       <label>PP MAQ FLUJO FLOC FORM (L/Placa)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_VacíoCP_PulgadasHg' placeholder="PP MAQ VACIO CP PULGADAS HG" name='PP_Maq_VacíoCP_PulgadasHg'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_VacíoCP_PulgadasHg' placeholder="PP MAQ VACIO CP PULGADAS HG" name='PP_Maq_VacíoCP_PulgadasHg' />
                       <label>PP MAQ VACIO CP PULGADAS HG</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_VacioSF_PulgadasHg ' placeholder="PP MAQ VACIO SF PULGADAS HG" name='PP_Maq_VacioSF_PulgadasHg ' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_VacioSF_PulgadasHg' placeholder="PP MAQ VACIO SF PULGADAS HG" name='PP_Maq_VacioSF_PulgadasHg' />
                       <label>PP MAQ VACIO SF PULGADAS HG</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Recir__porcentage' placeholder="PP MAQ RECIR (%)" name='PP_Maq_Recir__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Recir__porcentage' placeholder="PP MAQ RECIR (%)" name='PP_Maq_Recir__porcentage' />
                       <label>PP MAQ RECIR (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Fieltro_Dias' placeholder="PP MAQ FIELTRO DÍAS" name='PP_Maq_Fieltro_Dias'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Fieltro_Dias' placeholder="PP MAQ FIELTRO DÍAS" name='PP_Maq_Fieltro_Dias' />
                       <label>PP MAQ FIELTRO DÍAS</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_PF_Humedad__porcentage' placeholder="PP PF HUMEDAD (%)" name='PP_PF_Humedad__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_PF_Humedad__porcentage' placeholder="PP PF HUMEDAD (%)" name='PP_PF_Humedad__porcentage' />
                       <label>PP PF HUMEDAD (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_PF_Espesor_mm' placeholder="PP PF ESPESOR (MM)" name='PP_PF_Espesor_mm' />
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_PF_Espesor_mm' placeholder="PP PF ESPESOR (MM)" name='PP_PF_Espesor_mm' />
                       <label>PP PF ESPESOR (MM)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_PF_Dens_g_cm3' placeholder="PP PF DENS (G/CM3)" name='PP_PF_Dens_g_cm3'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_PF_Dens_g_cm3' placeholder="PP PF DENS (G/CM3)" name='PP_PF_Dens_g_cm3' />
                       <label>PP PF DENS (G/CM3)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FlocCanalS__porcentage' placeholder="PP MAQ FLOC CANAL S (%)" name='PP_Maq_FlocCanalS__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FlocCanalS__porcentage' placeholder="PP MAQ FLOC CANAL S (%)" name='PP_Maq_FlocCanalS__porcentage' />
                       <label>PP MAQ FLOC CANAL S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FlocTkS__porcentage' placeholder="PP MAQ FLOC TKS (%)" name='PP_Maq_FlocTkS__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FlocTkS__porcentage' placeholder="PP MAQ FLOC TKS (%)" name='PP_Maq_FlocTkS__porcentage' />
                       <label>PP MAQ FLOC TKS (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_FlocFormS__porcentage' placeholder="PP MAQ FLOC FORM S (%)" name='PP_Maq_FlocFormS__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_FlocFormS__porcentage' placeholder="PP MAQ FLOC FORM S (%)" name='PP_Maq_FlocFormS__porcentage' />
                       <label>PP MAQ FLOC FORM S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_MaqTCE_Densidad_g_cm3' placeholder="PP MAQ TCE DENSIDAD (G/CM3)" name='PP_MaqTCE_Densidad_g_cm3'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_MaqTCE_Densidad_g_cm3' placeholder="PP MAQ TCE DENSIDAD (G/CM3)" name='PP_MaqTCE_Densidad_g_cm3' />
                       <label>PP MAQ TCE DENSIDAD (G/CM3)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_TCES__porcentage' placeholder="PP MAQ TCES (%)" name='PP_Maq_TCES__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_TCES__porcentage' placeholder="PP MAQ TCES (%)" name='PP_Maq_TCES__porcentage' />
                       <label>PP MAQ TCES (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_CilinS__porcentage' placeholder="PP MAQ CILIN S (%)" name='PP_Maq_CilinS__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_CilinS__porcentage' placeholder="PP MAQ CILIN S (%)" name='PP_Maq_CilinS__porcentage' />
                       <label>PP MAQ CILIN S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_Cono1S__porcentage' placeholder="PP MAQ CONO 1S (%)" name='PP_Maq_Cono1S__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_Cono1S__porcentage' placeholder="PP MAQ CONO 1S (%)" name='PP_Maq_Cono1S__porcentage' />
                       <label>PP MAQ CONO 1S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_MolinoS__porcentage' placeholder="PP MAQ MOLINO S (%)" name='PP_Maq_MolinoS__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_MolinoS__porcentage' placeholder="PP MAQ MOLINO S (%)" name='PP_Maq_MolinoS__porcentage' />
                       <label>PP MAQ MOLINO S (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_P1H__porcentage' placeholder="PP MAQ P1H (%)" name='PP_Maq_P1H__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_P1H__porcentage' placeholder="PP MAQ P1H (%)" name='PP_Maq_P1H__porcentage' />
                       <label>PP MAQ P1H (%)</label>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                     <div className='form-floating'>
-                      <input type="number" className='form-control' id='PP_Maq_P3H__porcentage' placeholder="PP MAQ P3H (%)" name='PP_Maq_P3H__porcentage'/>
+                      <input type="number" className='form-control' onChange={handleChange} id='PP_Maq_P3H__porcentage' placeholder="PP MAQ P3H (%)" name='PP_Maq_P3H__porcentage' />
                       <label>PP MAQ P3H (%)</label>
                     </div>
                   </div>
                 </div>
                 <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-2 mb-4'>
                   <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-                    <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleManualCharacterization} data-bs-target="#manual-characterization" aria-controls="manual-characterization">
-                      <FontAwesomeIcon className='me-2' icon={faSpinner} size="sm"/>
+                    <button type='button' onClick={sendData} className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5"  data-bs-target="#manual-characterization" aria-controls="manual-characterization">
+                      <FontAwesomeIcon className='me-2' icon={faSpinner} size="sm" />
                       <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Procesar</span>
                     </button>
                   </div>
@@ -1311,7 +1415,7 @@ if(response)
             Caracterización de defectos - Datos manuales
           </h2>
           <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleManualCharacterization}>
-            <FontAwesomeIcon icon={faXmark} size="lg"/>
+            <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
         <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
@@ -1328,11 +1432,11 @@ if(response)
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
+                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
+                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
                   </div>
                 </div>
               </div>
@@ -1346,11 +1450,11 @@ if(response)
                 </div>
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg"/>
+                    <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg" />
                     <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">8</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg"/>
+                    <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg" />
                     <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">9</p>
                   </div>
                 </div>
@@ -1588,7 +1692,7 @@ if(response)
             Relevancia de características
           </h2>
           <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleRelevanceCharacteristics}>
-            <FontAwesomeIcon icon={faXmark} size="lg"/>
+            <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
         <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
@@ -1616,7 +1720,7 @@ if(response)
             Caracterización de defectos - Datos importados
           </h2>
           <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleImportCharacterization}>
-            <FontAwesomeIcon icon={faXmark} size="lg"/>
+            <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
         <div className="offcanvas-body ps-2 pe-2 ps-sm-2 pe-sm-2 ps-md-3 pe-md-3 ps-lg-4 pe-lg-4 ps-xl-4 pe-xl-4 ps-xxl-4 pe-xxl-4">
@@ -1637,8 +1741,8 @@ if(response)
                   <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                     <div className='col-auto d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-center align-items-center align-self-center me-auto'>
                       <div className='form-floating inner-addon- left-addon-'>
-                        <Select id='select-registers' options={SelectRegisters} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq'/>
-                          <i className='fa icon-id-type fs-xs'></i>
+                        <Select id='select-registers' options={SelectRegisters} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq' />
+                        <i className='fa icon-id-type fs-xs'></i>
                       </div>
                     </div>
                   </div>
@@ -1669,7 +1773,7 @@ if(response)
                           <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                             <div className='checks-radios-'>
                               <label>
-                                <input type="checkbox" name="radio"/>
+                                <input type="checkbox" name="radio" />
                                 <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
                               </label>
                             </div>
@@ -1684,7 +1788,7 @@ if(response)
                           <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                             <div className='checks-radios-'>
                               <label>
-                                <input type="checkbox" name="radio"/>
+                                <input type="checkbox" name="radio" />
                                 <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
                               </label>
                             </div>
@@ -1720,11 +1824,11 @@ if(response)
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
+                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
-                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
+                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
                   </div>
                 </div>
               </div>
@@ -1738,11 +1842,11 @@ if(response)
                 </div>
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg"/>
+                    <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg" />
                     <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">8</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg"/>
+                    <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg" />
                     <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">9</p>
                   </div>
                 </div>
@@ -1979,7 +2083,7 @@ if(response)
           <div className='modal-content p-0 ps-4 pe-4'>
             <div className='modal-header'>
               <button type="button" className="btn-close btn-secondary-blue-" data-bs-dismiss="modal" aria-label="Close">
-                <FontAwesomeIcon icon={faXmark} size="md"/>
+                <FontAwesomeIcon icon={faXmark} size="md" />
               </button>
             </div>
             <div className='modal-body position-relative'>
@@ -2004,7 +2108,7 @@ if(response)
                             <img className='image-upload- mx-auto mb-4' src={UploadIcon} alt="" />
                             <p className='mb-1 p-0 lh-sm text-center fs-5- font-noto-regular- fw-normal tx--quaternary-gray-'>Arrastre y suelte el archivo aquí</p>
                             <p className='m-0 p-0 lh-sm text-center fs-5- font-noto-regular- fw-normal tx-black-'>o <span className='tx-secondary-blue-'>seleccione un archivo</span> de su computadora</p>
-                            <input className='file-input-drop-' type="file" multiple={false}/>
+                            <input className='file-input-drop-' type="file" multiple={false} />
                           </div>
                         </div>
                       </div>
@@ -2014,20 +2118,20 @@ if(response)
               </div>
               <div className='row'>
                 <div className='col-12'>
-                <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx--quaternary-gray-'>Nombre del archivo: Lote_22_01_2024.csv</p>
+                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx--quaternary-gray-'>Nombre del archivo: Lote_22_01_2024.csv</p>
                 </div>
               </div>
               <div className='row mt-2'>
                 <div className='col-12'>
-                <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx-black-'>Tipo de archivos permitidos: excel, csv y txt</p>
+                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx-black-'>Tipo de archivos permitidos: excel, csv y txt</p>
                 </div>
               </div>
               <div className='row gx-2 d-flex flex-row justify-content-center align-items-start align-self-start mt-4 mb-2'>
                 <div className='col-auto'>
-                <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
-                  <FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
-                  <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Subir</span>
-                </button>
+                  <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
+                    <FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm" />
+                    <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Subir</span>
+                  </button>
                 </div>
               </div>
             </div>

@@ -7,6 +7,8 @@ export const environment = {
     api: server,
 
 
-    get_machines : 'predict/machines/'
+    get_machines : 'predict/machines/',
+    get_process : 'predict/processes/',
+    post_processes: 'predict/process-data/',
 
 }
