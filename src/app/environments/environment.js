@@ -11,6 +11,7 @@ export const environment = {
     get_process : 'predict/processes/',
     post_processes: 'predict/process-data/',
     get_all: 'predict/load-feature/',
+    post_excel: 'predict/process-data-excel/',
 
 
     // historico 1

@@ -75,26 +75,6 @@ const get_machine = async () => {
         data.PP_Maq_MolinoS__porcentage,
         data.PP_Maq_P1H__porcentage,
         data.PP_Maq_P3H__porcentage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     ];
 
     let body = {
@@ -106,5 +86,27 @@ const get_machine = async () => {
     return await axios.post(path, body, config);
 };
 
+const post_excel_ = async (file) => {
+  const path = environment.api + environment.post_excel;
 
-  export {get_machine,get_processes ,get_all_info,post_data};
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const response = await axios.post(path, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    // Puedes manejar la respuesta del backend aquí
+    console.log('Respuesta del backend:', response.data);
+    return response.data;
+  } catch (error) {
+    // Puedes manejar errores aquí
+    console.error('Error al enviar el archivo:', error);
+    throw error;
+  }
+};
+
+  export {get_machine,get_processes ,post_excel_ ,get_all_info,post_data};
