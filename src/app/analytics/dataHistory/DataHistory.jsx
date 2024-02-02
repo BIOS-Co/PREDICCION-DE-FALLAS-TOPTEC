@@ -383,40 +383,23 @@ export default function DataHistory() {
 
 const changeFilter = ({ target }) => {
   setFilter(target.value);
+  let filteredData = historyData; // Usa todo historyData si no hay filtro
+
   if (target.value !== '') {
-    let otherSubList = [];
-    for (let index = 0; index < historyData.length; index++) {
-      let keys = Object.keys(historyData[index]);
-      let flagKeys = false;
-      let i = 0;
-      while (i < keys.length && !flagKeys) {
-        if (keys[i] !== 'id' && keys[i] !== 'checked'  &&keys[i] !== 'history') {
-          let word = '' + historyData[index][keys[i]];
-          let words = word.split(' ');
-          let j = 0;
-          while (j < words.length && !flagKeys) {
-            if (words[j].toUpperCase().includes(target.value.toUpperCase())) {
-              flagKeys = true;
-            }
-            j ++;
-          }
-          if (target.value.toUpperCase() === word.substring(0, target.value.length).toUpperCase()) {
-            flagKeys = true;
-          }
-        }        
-        if (flagKeys) {
-          otherSubList.push(historyData[index]);
-        } 
-        i ++;
-      }
-    }      
-    setSubList(otherSubList.slice(0, show));
-    setPageCount(Math.ceil(otherSubList.length / show));
-  } else {
-    setSubList(historyData.slice(0, show));
-    setPageCount(Math.ceil((historyData.length + 1) / show));
+    filteredData = historyData.filter(item => {
+      // Simplifica la lógica de filtrado si es posible
+      return Object.keys(item).some(key =>
+        key !== 'id' && key !== 'checked' && key !== 'history' && String(item[key]).toUpperCase().includes(target.value.toUpperCase())
+      );
+    });
   }
+
+  // Aplica la paginación al conjunto de datos filtrados
+  const paginatedData = filteredData.slice(0, show);
+  setSubList(paginatedData);
+  setPageCount(Math.ceil(filteredData.length / show));
 };
+
 
 
 /// paginacion
@@ -435,6 +418,21 @@ React.useEffect(() => {
 
   setPageCount(Math.ceil((historyData.length + 1) / show));
 }, [pageIndex, show, historyData]);
+
+React.useEffect(() => {
+  // Asegúrate de trabajar con los datos filtrados para la paginación
+  let currentData = filter ? historyData.filter(item => {
+    return Object.keys(item).some(key =>
+      key !== 'id' && key !== 'checked' && key !== 'history' && String(item[key]).toUpperCase().includes(filter.toUpperCase())
+    );
+  }) : historyData;
+
+  const paginatedData = currentData.slice((pageIndex - 1) * show, pageIndex * show);
+  setSubList(paginatedData);
+
+  // Ajusta pageCount basado en los datos filtrados
+  setPageCount(Math.ceil(currentData.length / show));
+}, [pageIndex, show, filter, historyData]); // Incluye `filter` en las dependencias
 
 
 // manejar los checkbox
