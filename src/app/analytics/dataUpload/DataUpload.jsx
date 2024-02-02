@@ -1,6 +1,6 @@
 import DropArea from '../../../assets/images/bg_upload_file.png';
 import UploadIcon from '../../../assets/images/upload-file.svg';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import Pagination from 'pagination-for-reactjs-component'
@@ -9,8 +9,10 @@ import { faArrowUpFromBracket, faXmark, faMagnifyingGlass, faSpinner } from '@fo
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
 import $ from "jquery"
-import { get_all_info, get_machine, get_processes, post_data } from '../../../services/load/load_data';
+import { get_all_info, get_machine, get_processes, post_data, post_excel_ } from '../../../services/load/load_data';
 import { saveAs } from 'file-saver';
+import Preloader from '../../shared/preloader/Preloader';
+import Swal from 'sweetalert2';
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
  */
@@ -531,6 +533,7 @@ export default function DataUpload() {
 
   const [dataGraf, setDataGraf] = useState({})
   const [data, setData] = useState({})
+  const [charging, setCharging] = useState(false)
   React.useEffect(() => {
 
     /**
@@ -968,7 +971,6 @@ export default function DataUpload() {
   }, [dataGraf])
 
   const [pageIndex, setPageIndex] = React.useState(1);
-  let pageCount = 10;
 
   const [showManualCharacterization, setShowManualCharacterization] = useState(false);
   const [showImportCharacterization, setShowImportCharacterization] = useState(false);
@@ -994,10 +996,91 @@ export default function DataUpload() {
     setShowManualCharacterization(!showManualCharacterization);
   };
 
-  const toggleImportCharacterization = () => {
-    setShowImportCharacterization(!showImportCharacterization);
-  };
 
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [data2, setData2] = useState([]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+
+  };
+  const btnCloseRef = useRef();
+  const handleSubmit = async () => {
+    if (btnCloseRef.current) {
+      btnCloseRef.current.click();
+      setSelectedFile(null)
+      
+    }
+  };
+  const handleSubmit2 = async () => {
+     setSelectedFile(null)
+  };
+  const toggleImportCharacterization2 = async  () => {
+    
+      setShowImportCharacterization(!showImportCharacterization);
+     
+    
+  };
+  const toggleImportCharacterization = async  () => {
+    setCharging(true)
+    let response = await post_excel_(selectedFile).catch((e)=>{
+      console.log(e)
+      Swal.fire({
+        icon: "error",
+        text: "Se produjo un error al procesar el archivo, recuerde que debe de subir el formato que descarga de esta pagina",
+      });
+      setCharging(false)
+    })
+    if (response) {
+      console.log(response);
+      let resultado = response.resultado;
+      let arrayDeSubobjetos = Object.entries(resultado).map(([nombre, subobjeto]) => ({
+        nombreOriginal: nombre,
+        ...subobjeto
+      }));
+      setData2(arrayDeSubobjetos)
+      
+      console.log(arrayDeSubobjetos);
+      setShowImportCharacterization(!showImportCharacterization);
+      handleSubmit()
+      setCharging(false)
+
+    }
+    
+  };
+  const [seleccionActual, setSeleccionActual] = useState(null);
+
+  const manejarSeleccion = (id) => {
+    setSeleccionActual(id);
+
+    const elementosNoNulos = Object.entries(id).filter(([clave, valor]) => valor !== null).reduce((obj, [clave, valor]) => ({ ...obj, [clave]: valor }), {});
+setCards2(elementosNoNulos)
+
+        console.log(elementosNoNulos)
+        let trueCount = 0;
+        let falseCount = 0;
+
+        // Iterar sobre los valores del objeto y contar true y false
+        for (const valor of Object.values(elementosNoNulos)) {
+          if (valor === true) {
+            trueCount++;
+          } else if (valor === false) {
+            falseCount++;
+          }
+        }
+        setContadorTrue2(trueCount)
+        setContadorFalse2(falseCount)
+  };
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const totalItems = data2?.length;
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
+  const slicedLotes = data2?.slice(
+    (pageIndex - 1) * itemsPerPage,
+    pageIndex * itemsPerPage
+  );
   const [viendo, setViendo] = useState('')
   const toggleRelevanceCharacteristics = (identificador) => {
     setViendo(identificador)
@@ -1038,8 +1121,10 @@ export default function DataUpload() {
   
   const [optionsMachine, setOptionMachine] = useState([])
   const getDataIni = async () => {
+    setCharging(true)
     let response = await get_machine().catch((e) => {
       console.log(e)
+      setCharging(false)
     })
     if (response) {
       console.log(response)
@@ -1048,13 +1133,16 @@ export default function DataUpload() {
         label: opcion.name
       }));
       setOptionMachine(transformedOptions)
+      setCharging(false)
     }
 
     let response2 = await get_processes().catch((e) => {
       console.log(e)
+      setCharging(false)
     })
     if (response2) {
       console.log(response2)
+      setCharging(false)
       const transformedOptions2 = response2.data.map((opcion) => ({
         value: opcion.id,
         label: opcion.name
@@ -1064,8 +1152,10 @@ export default function DataUpload() {
 
     let response4 = await get_all_info().catch((e) => {
       console.log(e)
+      setCharging(false)
     })
     if (response4) {
+      setCharging(false)
       console.log(response4.data.resultado)
 
       setData(response4.data.resultado)
@@ -1140,16 +1230,29 @@ export default function DataUpload() {
   }
   
   const [contadorTrue, setContadorTrue] = useState(0)
-  
+
+  const [contadorTrue2, setContadorTrue2] = useState(0)
+
+
+
+  const [contadorFalse2, setContadorFalse2] = useState(0)
+  const [cards2, setCards2] = useState({})
+
   const [contadorFalse, setContadorFalse] = useState(0)
   const [cards, setCards] = useState({})
   const sendData = async () => {
+    setCharging(true)
     console.log(valores)
     let ok = isFormValid()
     if (ok) {
       console.log('ok')
       let response3 = await post_data(valores).catch((e) => {
         console.log(e)
+        setCharging(false)
+        Swal.fire({
+          icon: "error",
+          text: "Se produjo un error al hacer los calculos. Revise que todos los campos sean numericos y este el valor de la maquina y el proceso.",
+        });
       })
       if (response3) {
         console.log(response3.data)
@@ -1171,16 +1274,32 @@ export default function DataUpload() {
         }
         setContadorTrue(trueCount)
         setContadorFalse(falseCount)
+        setCharging(false)
         toggleManualCharacterization()
 
       }
     } else {
-      console.log('debe de llenar todos los campos')
+      setCharging(false)
+      Swal.fire({
+        icon: "info",
+        text: "Debe de llenar todos los campos.",
+      });
     }
   }
 
   return (
     <React.Fragment>
+      {
+        charging 
+        ?
+        (
+          <Preloader />
+        )
+        :
+        (
+          null
+        )
+      }
       <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center ms-1 me-1'>
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1'>
           <div className='col-12 d-flex flex-row justify-content-start align-items-center align-self-center'>
@@ -1775,6 +1894,7 @@ export default function DataUpload() {
                 </div>
               )}
             </div>
+           
           </div>
         </div>
       </div>
@@ -1811,7 +1931,7 @@ export default function DataUpload() {
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Caracterización de defectos - Datos importados
           </h2>
-          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleImportCharacterization}>
+          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleImportCharacterization2}>
             <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
@@ -1860,36 +1980,31 @@ export default function DataUpload() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+
+                    {slicedLotes && slicedLotes.map((elem) => (
+                       <tr key={elem.id}>
                         <td className='align-middle'>
                           <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                             <div className='checks-radios-'>
                               <label>
-                                <input type="checkbox" name="radio" />
+                              <input
+                  type="checkbox"
+                  name="radio"
+                  checked={seleccionActual === elem}
+                  onChange={() => manejarSeleccion(elem)}
+                />
                                 <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
                               </label>
                             </div>
                           </div>
                         </td>
                         <td className='align-middle'>
-                          <p className='m-0 lh-sm fs-5- text-start'>Lote 1</p>
+                          <p className='m-0 lh-sm fs-5- text-start'>{elem?.nombreOriginal}</p>
                         </td>
                       </tr>
-                      <tr>
-                        <td className='align-middle'>
-                          <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
-                            <div className='checks-radios-'>
-                              <label>
-                                <input type="checkbox" name="radio" />
-                                <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
-                              </label>
-                            </div>
-                          </div>
-                        </td>
-                        <td className='align-middle'>
-                          <p className='m-0 lh-sm fs-5- text-start'>Lote 2</p>
-                        </td>
-                      </tr>
+                    ))}
+                     
+                      
                     </tbody>
                   </table>
                 </div>
@@ -1904,281 +2019,321 @@ export default function DataUpload() {
                 />
               </div>
             </div>
-            <div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5'>
-              <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start align-items-center align-self-center'>
-                <div className="row mb-3">
-                  <div className="col-12">
-                    <p className="m-0 p-0 lh-sm fs-3- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
-                      Predicción de características
-                    </p>
-                  </div>
-                </div>
-                <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
-                  <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
-                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
-                  </div>
-                  <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
-                    <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
-                  </div>
-                </div>
-              </div>
-              <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-3 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
-                <div className="row mb-3">
-                  <div className="col-12">
-                    <p className="m-0 p-0 lh-sm fs-3- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
-                      Conteo de fallas
-                    </p>
-                  </div>
-                </div>
-                <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
-                  <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg" />
-                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">8</p>
-                  </div>
-                  <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
-                    <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg" />
-                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">9</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
 
+            {seleccionActual && (
+              <><div className='row gx-4 d-flex flex-wrap flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-between justify-content-sm-between justify-content-md-between justify-content-lg-between justify-content-xl-between justify-content-xxl-between align-items-center align-self-center align-self-xxl-center mt-5'>
+                <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start align-items-center align-self-center'>
+                  <div className="row mb-3">
+                    <div className="col-12">
+                      <p className="m-0 p-0 lh-sm fs-3- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
+                        Predicción de características
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
+                    <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
+                      <div className="p-2 me-2 rounded-circle bg-primary-green-"></div>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Buena</p>
+                    </div>
+                    <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
+                      <div className="p-2 me-2 rounded-circle bg-primary-red-"></div>
+                      <p className="m-0 p-0 lh-sm fs-5- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">Mala</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto d-flex flex-column justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-3 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
+                  <div className="row mb-3">
+                    <div className="col-12">
+                      <p className="m-0 p-0 lh-sm fs-3- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
+                        Conteo de fallas
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
+                    <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
+                      <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg" />
+                      <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">{contadorTrue2}</p>
+                    </div>
+                    <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
+                      <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg" />
+                      <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">{contadorFalse2}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
 
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-green-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                        <div className='w-auto pt-1 bt-primary-red-'>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+{cards2.Tallon !== undefined && cards2.Tallon !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Tallon') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Tallon ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
             </div>
           </div>
         </div>
       </div>
-      <div className='modal animated fade fast' id="upload-file" tabIndex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    </div>
+  </div>
+)}
+{cards2.Nudo !== undefined && cards2.Nudo !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Nudo') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Nudo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{cards2.Fisura !== undefined && cards2.Fisura !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Fisura') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Fisura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Delaminada !== undefined && cards2.Delaminada !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Delaminada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Delaminada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Desborde !== undefined && cards2.Desborde !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desborde') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Desborde ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Ondulación !== undefined && cards2.Ondulación !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Ondulación') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Ondulación ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Burbuja !== undefined && cards2.Burbuja !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Burbuja') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Burbuja ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Despunte !== undefined && cards2.Despunte !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Despunte') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Despunte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Basura !== undefined && cards2.Basura !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Basura') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Basura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Mancha !== undefined && cards2.Mancha !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mancha') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Mancha ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Material !== undefined && cards2.Material !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Material') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Material ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Rajada !== undefined && cards2.Rajada !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Rajada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Rajada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Desmoldeo !== undefined && cards2.Desmoldeo !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desmoldeo') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Desmoldeo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Desmoldeadora !== undefined && cards2.Desmoldeadora !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desmoldeadora') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Desmoldeadora ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Mal_Corte !== undefined && cards2.Mal_Corte !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mal_Corte') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Mal_Corte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Descolgada !== undefined && cards2.Descolgada !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Descolgada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Descolgada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{cards2.Mal_Ondulada !== undefined && cards2.Mal_Ondulada !== null && (
+  <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+    <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+      <div className='card border-0 position-relative overflow-hidden'>
+        <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mal_Ondulada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+          <div className='mt-3 wrapper-name-variable-'>
+            <div className={`w-auto pt-1 ${cards2.Mal_Ondulada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+              <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+</div>
+                
+                
+                </>
+            )}
+            
+
+          </div>
+        </div>
+      </div>
+      <div className='modal animated fade fast' id="upload-file" tabIndex="-1" aria-labelledby="exampleModalCenterTitle"    aria-hidden="true">
         <div className='modal-dialog modal-dialog-centered' role="document">
           <div className='modal-content p-0 ps-4 pe-4'>
             <div className='modal-header'>
-              <button type="button" className="btn-close btn-secondary-blue-" data-bs-dismiss="modal" aria-label="Close">
+              <button type="button" className="btn-close btn-secondary-blue-" onClick={()=>setSelectedFile(null)}  ref={btnCloseRef} data-bs-dismiss="modal" aria-label="Close">
                 <FontAwesomeIcon icon={faXmark} size="md" />
               </button>
             </div>
@@ -2204,7 +2359,7 @@ export default function DataUpload() {
                             <img className='image-upload- mx-auto mb-4' src={UploadIcon} alt="" />
                             <p className='mb-1 p-0 lh-sm text-center fs-5- font-noto-regular- fw-normal tx--quaternary-gray-'>Arrastre y suelte el archivo aquí</p>
                             <p className='m-0 p-0 lh-sm text-center fs-5- font-noto-regular- fw-normal tx-black-'>o <span className='tx-secondary-blue-'>seleccione un archivo</span> de su computadora</p>
-                            <input className='file-input-drop-' type="file" multiple={false} />
+                            <input className='file-input-drop-' type="file" onChange={handleFileChange} multiple={false} />
                           </div>
                         </div>
                       </div>
@@ -2212,16 +2367,20 @@ export default function DataUpload() {
                   </form>
                 </div>
               </div>
-              <div className='row'>
+              {selectedFile && (
+                <div className='row'>
                 <div className='col-12'>
-                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx--quaternary-gray-'>Nombre del archivo: Lote_22_01_2024.csv</p>
+                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx--quaternary-gray-'>Nombre del archivo: {selectedFile.name}</p>
                 </div>
               </div>
+              )}
+              
               <div className='row mt-2'>
                 <div className='col-12'>
-                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx-black-'>Tipo de archivos permitidos: excel, csv y txt</p>
+                  <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx-black-'>Tipo de archivos permitidos: xlsx</p>
                 </div>
               </div>
+              {selectedFile && (
               <div className='row gx-2 d-flex flex-row justify-content-center align-items-start align-self-start mt-4 mb-2'>
                 <div className='col-auto'>
                   <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
@@ -2230,6 +2389,7 @@ export default function DataUpload() {
                   </button>
                 </div>
               </div>
+               )}
             </div>
           </div>
         </div>
