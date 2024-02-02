@@ -10,8 +10,7 @@ import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icon
 import * as echarts from 'echarts';
 import $ from "jquery"
 import { get_all_info, get_machine, get_processes, post_data } from '../../../services/load/load_data';
-import { isExists } from 'date-fns';
-
+import { saveAs } from 'file-saver';
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
  */
@@ -1025,7 +1024,18 @@ export default function DataUpload() {
   }, [])
 
   const [optionsoProcesses, setOptionProcesses] = useState([])
-
+  const descargarXLSX = () => {
+    // Ruta del archivo XLSX en la carpeta 'public'
+    const rutaArchivo = '/plantilla/Libro1.xlsx';
+  
+    // Nombre con el que se guardará el archivo descargado
+    const nombreArchivo = 'archivo_descargado.xlsx';
+  
+    // Descargar el archivo utilizando file-saver
+    saveAs(rutaArchivo, nombreArchivo);
+  };
+  
+  
   const [optionsMachine, setOptionMachine] = useState([])
   const getDataIni = async () => {
     let response = await get_machine().catch((e) => {
@@ -1185,7 +1195,7 @@ export default function DataUpload() {
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Importar datos</span></button>
             </div>
             <div className="col-auto">
-              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
+              <button type='button'   onClick={descargarXLSX} className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Descargar plantilla</span></button>
             </div>
           </div>
