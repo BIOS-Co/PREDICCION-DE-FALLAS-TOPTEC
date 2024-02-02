@@ -20,6 +20,15 @@ const get_machine = async () => {
     return await axios.get(path, config);
   };
 
+  const get_all_info = async () => {
+    const path = environment.api + environment.get_all;
+    let config = {
+      headers: {
+      },
+    };
+    return await axios.get(path, config);
+  };
+
   const post_data = async (data) => {
     const path = environment.api + environment.post_processes;
 
@@ -98,4 +107,4 @@ const get_machine = async () => {
 };
 
 
-  export {get_machine,get_processes ,post_data};
+  export {get_machine,get_processes ,get_all_info,post_data};
