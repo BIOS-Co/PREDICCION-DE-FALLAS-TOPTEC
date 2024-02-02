@@ -1287,6 +1287,9 @@ setCards2(elementosNoNulos)
     }
   }
 
+  const [subList, setSubList] = useState([]);
+  
+
   return (
     <React.Fragment>
       {
