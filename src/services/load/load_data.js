@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { environment } from '../../app/environments/environment';
 
+import { environment } from '../../app/environments/environment';
+import axios from "axios"
  
 
 const get_machine = async () => {
