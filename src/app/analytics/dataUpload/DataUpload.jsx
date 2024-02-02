@@ -530,6 +530,8 @@ const SelectRegisters = [
 
 export default function DataUpload() {
 
+  const [dataGraf, setDataGraf] = useState({})
+  const [data, setData] = useState({})
   React.useEffect(() => {
 
     /**
@@ -539,23 +541,15 @@ export default function DataUpload() {
     let chartRelevanceCharacteristics = echarts.init(document.getElementById('relevance-characteristics-chart-'));
     let optionRelevanceCharacteristics;
 
-    const dataRelevanceCharacteristics = [
-      { nameCharacteristics: 'Característica 1', valueCharacteristics: 5 },
-      { nameCharacteristics: 'Característica 2', valueCharacteristics: 90 },
-      { nameCharacteristics: 'Característica 3', valueCharacteristics: 60 },
-      { nameCharacteristics: 'Característica 4', valueCharacteristics: 80 },
-      { nameCharacteristics: 'Característica 5', valueCharacteristics: 25 },
-      { nameCharacteristics: 'Característica 6', valueCharacteristics: 67 },
-      { nameCharacteristics: 'Característica 7', valueCharacteristics: 76 },
-      { nameCharacteristics: 'Característica 8', valueCharacteristics: 39 },
-      { nameCharacteristics: 'Característica 9', valueCharacteristics: 32 },
-      { nameCharacteristics: 'Característica 10', valueCharacteristics: 98 },
-      { nameCharacteristics: 'Característica 11', valueCharacteristics: 47 },
-      { nameCharacteristics: 'Característica 12', valueCharacteristics: 58 },
-      { nameCharacteristics: 'Característica 13', valueCharacteristics: 89 },
-      { nameCharacteristics: 'Característica 14', valueCharacteristics: 83 },
-      { nameCharacteristics: 'Característica 15', valueCharacteristics: 29 }
-    ];
+    const dataRelevanceCharacteristics = Object.entries(dataGraf)
+      .map(([nameCharacteristics, valueCharacteristics]) => ({
+        nameCharacteristics,
+        valueCharacteristics
+      }))
+      .sort((a, b) => b.valueCharacteristics - a.valueCharacteristics)
+      .slice(0, 15);
+    console.log(dataRelevanceCharacteristics);
+    console.log(dataGraf, 'data')
 
     const sortedData = dataRelevanceCharacteristics.sort((a, b) => b.valueCharacteristics - a.valueCharacteristics);
 
@@ -805,7 +799,7 @@ export default function DataUpload() {
         top: 'middle',
         right: -5,
         min: 0,
-        max: 100,
+        max: 1,
         text: ['Máximo', 'Mínimo'],
         inRange: {
           color: ['#9AC331', '#FFDE00', '#FF0018']
@@ -972,7 +966,7 @@ export default function DataUpload() {
       $('#relevance-characteristics').off('shown.bs.offcanvas', updateChartHeight);
     };
 
-  }, [])
+  }, [dataGraf])
 
   const [pageIndex, setPageIndex] = React.useState(1);
   let pageCount = 10;
@@ -1004,31 +998,34 @@ export default function DataUpload() {
   const toggleImportCharacterization = () => {
     setShowImportCharacterization(!showImportCharacterization);
   };
- 
+
   const [viendo, setViendo] = useState('')
-  const [dataGraf, setDataGraf] = useState({})
   const toggleRelevanceCharacteristics = (identificador) => {
     setViendo(identificador)
     setShowRelevanceCharacteristics(!showRelevanceCharacteristics);
     console.log(data.nt_m2[identificador])
-    if(valores.machine === 2 && valores.process === 2 ){
+    if (valores.machine === 2 && valores.process === 2) {
       setDataGraf(data.nt_m2[identificador])
-    }else if(valores.machine === 1 && valores.process === 2 ){
+    } else if (valores.machine === 1 && valores.process === 2) {
       setDataGraf(data.nt_m1[identificador])
-    }else if(valores.machine === 1 && valores.process === 1 ){
-      setDataGraf(data.out_m1[identificador])
-    }else {
-      setDataGraf(data.out_m1[identificador])
+    } else if (valores.machine === 1 && valores.process === 1) {
+      setDataGraf(data.aut_m1[identificador])
+    } else {
+      setDataGraf(data.aut_m1[identificador])
     }
   };
+  const toggleRelevanceCharacteristics2 = () => {
+    setShowRelevanceCharacteristics(!showRelevanceCharacteristics);
+    setViendo('')
+    setDataGraf({})
 
+  };
   useEffect(() => {
     getDataIni()
   }, [])
 
   const [optionsoProcesses, setOptionProcesses] = useState([])
-  
-  const [data, setData] = useState([])
+
   const [optionsMachine, setOptionMachine] = useState([])
   const getDataIni = async () => {
     let response = await get_machine().catch((e) => {
@@ -1038,29 +1035,29 @@ export default function DataUpload() {
       console.log(response)
       const transformedOptions = response.data.map((opcion) => ({
         value: opcion.id,
-        label: opcion.name  
+        label: opcion.name
       }));
       setOptionMachine(transformedOptions)
     }
 
-    let response2 = await get_processes().catch((e)=>{
+    let response2 = await get_processes().catch((e) => {
       console.log(e)
     })
-    if(response2){
+    if (response2) {
       console.log(response2)
       const transformedOptions2 = response2.data.map((opcion) => ({
         value: opcion.id,
-        label: opcion.name  
+        label: opcion.name
       }));
       setOptionProcesses(transformedOptions2)
     }
 
-    let response4 = await get_all_info().catch((e)=>{
+    let response4 = await get_all_info().catch((e) => {
       console.log(e)
     })
-    if(response4){
+    if (response4) {
       console.log(response4.data.resultado)
-      
+
       setData(response4.data.resultado)
     }
   }
@@ -1102,8 +1099,8 @@ export default function DataUpload() {
     PP_Maq_MolinoS__porcentage: '',
     PP_Maq_P1H__porcentage: '',
     PP_Maq_P3H__porcentage: '',
-    machine:'',
-    process:''
+    machine: '',
+    process: ''
   });
   const isFormValid = () => {
     for (const key in valores) {
@@ -1122,38 +1119,55 @@ export default function DataUpload() {
       ...valores,
       [name]: value,
     });
-    
+
   };
 
-  const handleSelectChange = (event, label)=>{
+  const handleSelectChange = (event, label) => {
     setValores({
       ...valores,
-      [label]:event.value,
+      [label]: event.value,
     });
   }
-const [cards, setCards] = useState({})
-const sendData = async  () => {
-  console.log(valores)
-  let ok = isFormValid()
-  if(ok){
-    console.log('ok')
-    let response3 = await post_data(valores).catch((e)=>{
-      console.log(e)
-    })
-    if(response3){
-      console.log(response3.data)
-      const elementosNoNulos = Object.entries(response3.data.resultado).filter(([clave, valor]) => valor !== null).reduce((obj, [clave, valor]) => ({ ...obj, [clave]: valor }), {});
-      setCards(elementosNoNulos)
-      
-      
-      console.log(elementosNoNulos)
-       toggleManualCharacterization()
+  
+  const [contadorTrue, setContadorTrue] = useState(0)
+  
+  const [contadorFalse, setContadorFalse] = useState(0)
+  const [cards, setCards] = useState({})
+  const sendData = async () => {
+    console.log(valores)
+    let ok = isFormValid()
+    if (ok) {
+      console.log('ok')
+      let response3 = await post_data(valores).catch((e) => {
+        console.log(e)
+      })
+      if (response3) {
+        console.log(response3.data)
+        const elementosNoNulos = Object.entries(response3.data.resultado).filter(([clave, valor]) => valor !== null).reduce((obj, [clave, valor]) => ({ ...obj, [clave]: valor }), {});
+        setCards(elementosNoNulos)
 
+
+        console.log(elementosNoNulos)
+        let trueCount = 0;
+        let falseCount = 0;
+
+        // Iterar sobre los valores del objeto y contar true y false
+        for (const valor of Object.values(elementosNoNulos)) {
+          if (valor === true) {
+            trueCount++;
+          } else if (valor === false) {
+            falseCount++;
+          }
+        }
+        setContadorTrue(trueCount)
+        setContadorFalse(falseCount)
+        toggleManualCharacterization()
+
+      }
+    } else {
+      console.log('debe de llenar todos los campos')
     }
-  }else{
-    console.log('debe de llenar todos los campos')
   }
-}
 
   return (
     <React.Fragment>
@@ -1190,13 +1204,13 @@ const sendData = async  () => {
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-4'>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='maq' options={optionsMachine} onChange={(event)=>handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
+                      <Select id='maq' options={optionsMachine} onChange={(event) => handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='process' options={optionsoProcesses}  onChange={(event)=>handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
+                      <Select id='process' options={optionsoProcesses} onChange={(event) => handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
@@ -1430,7 +1444,7 @@ const sendData = async  () => {
                 </div>
                 <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-2 mb-4'>
                   <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-                    <button type='button' onClick={sendData} className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5"  data-bs-target="#manual-characterization" aria-controls="manual-characterization">
+                    <button type='button' onClick={sendData} className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" data-bs-target="#manual-characterization" aria-controls="manual-characterization">
                       <FontAwesomeIcon className='me-2' icon={faSpinner} size="sm" />
                       <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Procesar</span>
                     </button>
@@ -1483,273 +1497,273 @@ const sendData = async  () => {
                 <div className="row row-cols-auto g-3 d-flex flex-wrap flex-row justify-content-start align-items-center align-self-center me-auto">
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <FontAwesomeIcon className='co-primary-green- me-2' icon={faCircleCheck} size="lg" />
-                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">8</p>
+                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">{contadorTrue}</p>
                   </div>
                   <div className="col-auto d-flex flex-row justify-content-start align-items-center align-self-center">
                     <FontAwesomeIcon className='co-primary-red- me-2' icon={faCircleXmark} size="lg" />
-                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">9</p>
+                    <p className="m-0 p-0 lh-sm fs-4- font-noto-regular- text-start fw-bold tx-tertiary-black- le-spacing-05-">{contadorFalse}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
-              
-            {cards.Tallon !== undefined && cards.Tallon !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={()=>{toggleRelevanceCharacteristics('Tallon')}} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Tallon ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
+
+              {cards.Tallon !== undefined && cards.Tallon !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Tallon') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Tallon ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Tallón</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-              {cards.Nudo !== undefined && cards.Nudo !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Nudo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
+              )}
+              {cards.Nudo !== undefined && cards.Nudo !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Nudo') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Nudo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Nudo</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-   )}
- 
-              {cards.Fisura !== undefined &&cards.Fisura !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Fisura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
+              )}
+
+              {cards.Fisura !== undefined && cards.Fisura !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Fisura') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Fisura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Fisura</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Delaminada !== undefined &&cards.Delaminada !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Delaminada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
+              )}
+              {cards.Delaminada !== undefined && cards.Delaminada !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Delaminada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Delaminada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Delaminada</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Desborde !== undefined &&cards.Desborde !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Desborde ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
+              )}
+              {cards.Desborde !== undefined && cards.Desborde !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desborde') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Desborde ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desborde</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Ondulación !== undefined &&cards.Ondulación !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Ondulación ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
+              )}
+              {cards.Ondulación !== undefined && cards.Ondulación !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Ondulación') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Ondulación ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Ondulación</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Burbuja !== undefined &&cards.Burbuja !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Burbuja ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
+              )}
+              {cards.Burbuja !== undefined && cards.Burbuja !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Burbuja') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Burbuja ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Burbuja</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Despunte !== undefined &&cards.Despunte !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Despunte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
+              )}
+              {cards.Despunte !== undefined && cards.Despunte !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Despunte') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Despunte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Despunte</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Basura !== undefined &&cards.Basura !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Basura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
+              )}
+              {cards.Basura !== undefined && cards.Basura !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Basura') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Basura ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Basura</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Mancha !== undefined &&cards.Mancha !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Mancha ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
+              )}
+              {cards.Mancha !== undefined && cards.Mancha !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mancha') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Mancha ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mancha</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Material !== undefined &&cards.Material !== null   && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Material ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
+              )}
+              {cards.Material !== undefined && cards.Material !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Material') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Material ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Material</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Rajada !== undefined &&cards.Rajada !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Rajada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
+              )}
+              {cards.Rajada !== undefined && cards.Rajada !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Rajada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Rajada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Rajada</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Desmoldeo!==undefined && cards.Desmoldeo !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Desmoldeo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
+              )}
+              {cards.Desmoldeo !== undefined && cards.Desmoldeo !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desmoldeo') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Desmoldeo ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeo</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                 { cards.Desmoldeadora !== undefined && cards.Desmoldeadora !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Desmoldeadora ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
+              )}
+              {cards.Desmoldeadora !== undefined && cards.Desmoldeadora !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Desmoldeadora') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Desmoldeadora ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Desmoldeadora</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Mal_Corte !== undefined &&cards.Mal_Corte !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Mal_Corte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
+              )}
+              {cards.Mal_Corte !== undefined && cards.Mal_Corte !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mal_Corte') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Mal_Corte ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal corte</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Descolgada !== undefined &&cards.Descolgada !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Descolgada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
+              )}
+              {cards.Descolgada !== undefined && cards.Descolgada !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Descolgada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Descolgada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Descolgada</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-                )}
-                {cards.Mal_Ondulada !== undefined && cards.Mal_Ondulada !== null  && (
-              <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
-                <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
-                  <div className='card border-0 position-relative overflow-hidden'>
-                    <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={toggleRelevanceCharacteristics} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
-                      <div className='mt-3 wrapper-name-variable-'>
-                      <div className={`w-auto pt-1 ${cards.Mal_Ondulada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
-                          <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
+              )}
+              {cards.Mal_Ondulada !== undefined && cards.Mal_Ondulada !== null && (
+                <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
+                  <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
+                    <div className='card border-0 position-relative overflow-hidden'>
+                      <div className='w-100 h-100 d-flex flex-row justify-content-center align-items-center align-self-center' type="button" onClick={() => { toggleRelevanceCharacteristics('Mal_Ondulada') }} data-bs-target="#relevance-characteristics" aria-controls="relevance-characteristics">
+                        <div className='mt-3 wrapper-name-variable-'>
+                          <div className={`w-auto pt-1 ${cards.Mal_Ondulada ? 'bt-primary-green-' : 'bt-primary-red-'}`}>
+                            <p className='m-0 p-0 lh-sm fs-5- font-noto-regular- text-center text-uppercase fw-bold tx-tertiary-black- le-spacing-05-'>Mal ondulada</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-               )}
+              )}
             </div>
           </div>
         </div>
@@ -1759,7 +1773,7 @@ const sendData = async  () => {
           <h2 className="m-0 ms-3 me-5 p-0 lh-sm fs-2- font-oswald-regular- text-uppercase text-start fw-bold tx-primary-blue- le-spacing-1-">
             Relevancia de características
           </h2>
-          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleRelevanceCharacteristics}>
+          <button type="button" className="ms-5 btn-close-offcanvas btn-secondary-blue-" data-bs-dismiss="offcanvas" onClick={toggleRelevanceCharacteristics2}>
             <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
@@ -1921,8 +1935,8 @@ const sendData = async  () => {
               </div>
             </div>
             <div className='row row-cols-auto d-flex flex-wrap justify-content-center align-items-start align-self-start justify-content-sm-center align-items-sm-start align-self-sm-start justify-content-md-center align-items-md-start align-self-md-start justify-content-lg-start align-items-lg-start align-self-lg-start justify-content-xl-start align-items-xl-start align-self-xl-start justify-content-xxl-start align-items-xxl-start align-self-xxl-start g-4 mt-4'>
-             
-          
+
+
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
@@ -1936,8 +1950,8 @@ const sendData = async  () => {
                   </div>
                 </div>
               </div>
-             
-              
+
+
               <div className='col d-flex flex-column justify-content-center align-items-center align-self-start wrapper-variable-card-'>
                 <div id="variable-card" className='w-100 d-flex flex-row justify-content-center align-items-center align-self-center cursor-'>
                   <div className='card border-0 position-relative overflow-hidden'>
