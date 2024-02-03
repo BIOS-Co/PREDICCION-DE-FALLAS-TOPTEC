@@ -343,6 +343,10 @@ export default function DataHistory() {
   const minDate = new Date(2021, 0, 1);
   const maxDate = new Date(2100, 11, 31);
 
+  // variable para seleccionar todo
+
+  const [select_all, setSelect_all] = useState(false);
+
   const changeRadioModelHistory = (type) => {
     setModelHistory(type);
   };
@@ -454,6 +458,7 @@ const handleCheckboxChange = (id) => {
 const exportSelected = async () => {
   setCharging(true); // Supongo que esto es para mostrar algún indicador de carga
 
+
   const selectedData = historyData.filter(item => item.isSelected).map(item => ({
     // Prepara los datos con los campos requeridos
     mala: item.mala,
@@ -488,13 +493,27 @@ const exportSelected = async () => {
       ...item,
       isSelected: false // Desmarca todos los elementos
     }));
+    setSelect_all(false);
     setHistoryData(updatedHistoryData);
   } catch (error) {
     console.error('Error al exportar los datos seleccionados:', error);
   } finally {
+    setSelect_all(false);
     // Asegúrate de detener el indicador de carga independientemente del resultado
     setCharging(false);
   }
+};
+
+// seleccionar todo 
+
+const toggleSelectAll = () => {
+  const newSelectAllValue = !select_all;
+  setSelect_all(newSelectAllValue);
+  const updatedHistoryData = historyData.map(item => ({
+    ...item,
+    isSelected: newSelectAllValue,
+  }));
+  setHistoryData(updatedHistoryData);
 };
 
 
@@ -521,6 +540,8 @@ const handleDateChange = (event) => {
 console.log("historyData", historyData)
 console.log("pageCount", pageCount)
 console.log("subList", subList)
+console.log("select_all", select_all)
+
 
 
   return (
@@ -639,10 +660,10 @@ console.log("subList", subList)
                         <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
                           <div className='w-auto d-flex flex-row justify-content-center align-items-center align-self-center'>
                             <div className='checks-radios-'>
-                              <label>
-                                <input type="checkbox" name="radio"/>
-                                <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
-                              </label>
+                            <label>
+                              <input type="checkbox" name="selectAll" checked={select_all} onChange={toggleSelectAll}/>
+                              <span className='lh-sm fs-5- ff-monse-regular- tx-dark-purple-'></span>
+                            </label>
                             </div>
                           </div>
                         </div>
