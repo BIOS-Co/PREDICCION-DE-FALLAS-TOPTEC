@@ -1231,7 +1231,24 @@ setCards2(elementosNoNulos)
     });
 
   };
+  const handleSearchChange = (event) => {
+    const newValue = event.target.value.toLowerCase(); // Convertir a minúsculas y eliminar espacios en blanco
+    setSearchValue(newValue);
 
+    if (newValue === '') {
+    } else {
+      const filtered = data2.filter((a) => {
+        console.log(a)
+        const fullName = a.nombreOriginal.toLowerCase() ; // Concatenar los campos y convertir a minúsculas
+        return fullName.includes(newValue);
+      });
+      console.log(filtered, 'filtro');
+      setData2(filtered)
+    }
+  };
+
+  const [searchValue, setSearchValue] = useState('');
+ 
   const handleSelectChange = (event, label) => {
     setValores({
       ...valores,
@@ -1962,7 +1979,8 @@ setCards2(elementosNoNulos)
               <div className='col-12'>
                 <form action="" className='position-relative wrapper-search- d-block d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block'>
                   <div className='form-search inner-addon- left-addon-'>
-                    <input type="text" className='form-control search-' id="buscador-modulos" placeholder="Buscar" />
+                    <input type="text" className='form-control search-'  value={searchValue}
+  onChange={(e) => handleSearchChange(e)} id="buscador-modulos" placeholder="Buscar" />
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </div>
                 </form>
