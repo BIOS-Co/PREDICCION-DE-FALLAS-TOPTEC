@@ -544,14 +544,16 @@ export default function DataUpload() {
     let optionRelevanceCharacteristics;
 
     const dataRelevanceCharacteristics = Object.entries(dataGraf)
-      .map(([nameCharacteristics, valueCharacteristics]) => ({
-        nameCharacteristics,
-        valueCharacteristics
-      }))
-      .sort((a, b) => b.valueCharacteristics - a.valueCharacteristics)
-      .slice(0, 15);
-    console.log(dataRelevanceCharacteristics);
-    console.log(dataGraf, 'data')
+    .map(([nameCharacteristics, valueCharacteristics]) => ({
+      nameCharacteristics,
+      valueCharacteristics: parseFloat(valueCharacteristics.toFixed(4)) // Redondea a 4 decimales
+    }))
+    .sort((a, b) => b.valueCharacteristics - a.valueCharacteristics)
+    .slice(0, 15);
+  
+  console.log(dataRelevanceCharacteristics);
+  console.log(dataGraf, 'data');
+  
 
     const sortedData = dataRelevanceCharacteristics.sort((a, b) => b.valueCharacteristics - a.valueCharacteristics);
 
@@ -1068,7 +1070,7 @@ setCards2(elementosNoNulos)
             const valor = elementosNoNulos[key];
             
             // Verificar si la clave no es una de las excluidas
-            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_estiba") {
+            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_Estiba") {
               if (valor === true) {
                 trueCount++;
               } else if (valor === false) {
@@ -1297,7 +1299,7 @@ setCards2(elementosNoNulos)
             const valor = elementosNoNulos[key];
             
             // Verificar si la clave no es una de las excluidas
-            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_estiba") {
+            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_Estiba") {
               if (valor === true) {
                 trueCount++;
               } else if (valor === false) {
