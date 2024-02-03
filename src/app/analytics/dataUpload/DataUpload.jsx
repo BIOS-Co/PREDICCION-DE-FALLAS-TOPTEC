@@ -1016,9 +1016,7 @@ export default function DataUpload() {
       
     }
   };
-  const handleSubmit2 = async () => {
-     setSelectedFile(null)
-  };
+  
   const toggleImportCharacterization2 = async  () => {
     
       setShowImportCharacterization(!showImportCharacterization);
@@ -1063,15 +1061,23 @@ setCards2(elementosNoNulos)
         console.log(elementosNoNulos)
         let trueCount = 0;
         let falseCount = 0;
-
+        
         // Iterar sobre los valores del objeto y contar true y false
-        for (const valor of Object.values(elementosNoNulos)) {
-          if (valor === true) {
-            trueCount++;
-          } else if (valor === false) {
-            falseCount++;
+        for (const key in elementosNoNulos) {
+          if (elementosNoNulos.hasOwnProperty(key)) {
+            const valor = elementosNoNulos[key];
+            
+            // Verificar si la clave no es una de las excluidas
+            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_estiba") {
+              if (valor === true) {
+                trueCount++;
+              } else if (valor === false) {
+                falseCount++;
+              }
+            }
           }
         }
+        
         setContadorTrue2(trueCount)
         setContadorFalse2(falseCount)
   };
@@ -1230,6 +1236,7 @@ setCards2(elementosNoNulos)
     setValores({
       ...valores,
       [label]: event.value,
+    
     });
   }
   
@@ -1267,13 +1274,20 @@ setCards2(elementosNoNulos)
         console.log(elementosNoNulos)
         let trueCount = 0;
         let falseCount = 0;
-
+        
         // Iterar sobre los valores del objeto y contar true y false
-        for (const valor of Object.values(elementosNoNulos)) {
-          if (valor === true) {
-            trueCount++;
-          } else if (valor === false) {
-            falseCount++;
+        for (const key in elementosNoNulos) {
+          if (elementosNoNulos.hasOwnProperty(key)) {
+            const valor = elementosNoNulos[key];
+            
+            // Verificar si la clave no es una de las excluidas
+            if (key !== "Separador" && key !== "Manipulación" && key !== "Daño_estiba") {
+              if (valor === true) {
+                trueCount++;
+              } else if (valor === false) {
+                falseCount++;
+              }
+            }
           }
         }
         setContadorTrue(trueCount)
@@ -1337,13 +1351,13 @@ setCards2(elementosNoNulos)
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-4'>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='maq' options={optionsMachine} onChange={(event) => handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
+                      <Select id='maq' options={optionsMachine} value={valores?.process === 2  ?valores?.machine?optionsMachine.find(option=>option.value===valores.machine):null : optionsMachine.find(option=>option.value===1)   } onChange={(event) => handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='process' options={optionsoProcesses} onChange={(event) => handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
+                      <Select id='process' options={optionsoProcesses} value={valores?.process?optionsoProcesses.find(option=>option.value===valores.process):null} onChange={(event) => handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>

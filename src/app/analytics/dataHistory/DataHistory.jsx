@@ -352,7 +352,9 @@ export default function DataHistory() {
 
   //definicion de variables
   const [historyData, setHistoryData] = React.useState([]);
+  const [historyDataOriginal, setHistoryDataOriginal] = React.useState([]);
 
+ 
  
 
   const getHistory = async () => {
@@ -366,6 +368,7 @@ export default function DataHistory() {
         isSelected: false // Añade la propiedad isSelected inicializada en false
       }));
       setHistoryData(dataWithCheckbox);
+      setHistoryDataOriginal(dataWithCheckbox);
     } else {
       // Maneja el caso de que no haya datos o el formato sea inesperado
       console.log('No data received or data is in unexpected format');
@@ -495,6 +498,22 @@ const exportSelected = async () => {
 };
 
 
+const handleDateChange = (event) => {
+
+  console.log(event);
+
+  if (event[0] && event[1]) {
+    console.log('listo');
+
+    // Filtra los elementos de historyData dentro del rango de fechas
+    const filteredData = historyDataOriginal.filter(item => {
+      const registrationDate = new Date(item.registration_date);
+      return registrationDate >= new Date(event[0]) && registrationDate <= new Date(event[1]);
+    });
+    console.log(filteredData)
+    setHistoryData(filteredData)
+  }
+};
 
 
 
@@ -578,6 +597,7 @@ console.log("subList", subList)
                       arrowStyle={{ 
                         display: "none"
                       }}
+                      onChange={handleDateChange}
                     />
                   </div>
                   <label className='fs-5- ff-monse-regular-'>Rango de fecha</label>
