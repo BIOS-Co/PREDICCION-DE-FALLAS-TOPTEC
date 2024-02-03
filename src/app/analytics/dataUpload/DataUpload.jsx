@@ -956,6 +956,7 @@ export default function DataUpload() {
 
       chartRelevanceCharacteristics.setOption(optionRelevanceCharacteristics);
     };
+   
 
     window.addEventListener('resize', handleWindowResize);
     handleWindowResize();
@@ -1118,7 +1119,10 @@ setCards2(elementosNoNulos)
     saveAs(rutaArchivo, nombreArchivo);
   };
   
-  
+  const cambiarItems = (event)=>{
+    setItemsPerPage(parseInt(event.label))
+    console.log(parseInt(event.label))
+  }
   const [optionsMachine, setOptionMachine] = useState([])
   const getDataIni = async () => {
     setCharging(true)
@@ -1953,7 +1957,7 @@ setCards2(elementosNoNulos)
                   <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                     <div className='col-auto d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-xxl-row justify-content-center align-items-center align-self-center me-auto'>
                       <div className='form-floating inner-addon- left-addon-'>
-                        <Select id='select-registers' options={SelectRegisters} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq' />
+                        <Select id='select-registers' options={SelectRegisters} onChange={cambiarItems} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="# registros" styles={selectRegistersStyles} isClearable={true} name='maq' />
                         <i className='fa icon-id-type fs-xs'></i>
                       </div>
                     </div>

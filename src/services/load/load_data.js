@@ -90,7 +90,7 @@ const post_excel_ = async (file) => {
   const path = environment.api + environment.post_excel;
 
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('File', file);
 
   try {
     const response = await axios.post(path, formData, {
