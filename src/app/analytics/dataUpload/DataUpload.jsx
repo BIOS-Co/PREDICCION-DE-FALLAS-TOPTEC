@@ -1243,7 +1243,6 @@ setCards2(elementosNoNulos)
         return fullName.includes(newValue);
       });
       console.log(filtered, 'filtro');
-      setData2(filtered)
     }
   };
 
