@@ -1113,7 +1113,7 @@ setCards2(elementosNoNulos)
     const rutaArchivo = '/plantilla/Libro1.xlsx';
   
     // Nombre con el que se guardará el archivo descargado
-    const nombreArchivo = 'archivo_descargado.xlsx';
+    const nombreArchivo = 'plantilla_prediccion_fallas.xlsx';
   
     // Descargar el archivo utilizando file-saver
     saveAs(rutaArchivo, nombreArchivo);
@@ -2425,16 +2425,16 @@ setCards2(elementosNoNulos)
                   <p className='m-0 p-0 lh-sm text-center fs-6- font-noto-regular- fw-normal tx-black-'>Tipo de archivos permitidos: xlsx</p>
                 </div>
               </div>
-              {selectedFile && (
+               
               <div className='row gx-2 d-flex flex-row justify-content-center align-items-start align-self-start mt-4 mb-2'>
                 <div className='col-auto'>
-                  <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
+                  <button disabled={selectedFile===null} type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
                     <FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm" />
                     <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Subir</span>
                   </button>
                 </div>
               </div>
-               )}
+               
             </div>
           </div>
         </div>
