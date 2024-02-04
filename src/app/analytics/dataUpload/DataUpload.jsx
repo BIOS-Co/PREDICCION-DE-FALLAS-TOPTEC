@@ -512,15 +512,7 @@ const selectRegistersStyles = {
  * Data que llena los select
  */
 
-const Maq = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" }
-];
-
-const Process = [
-  { value: "AUT", label: "AUT" },
-  { value: "NT", label: "NT" }
-];
+ 
 
 const SelectRegisters = [
   { value: 1, label: "5" },
