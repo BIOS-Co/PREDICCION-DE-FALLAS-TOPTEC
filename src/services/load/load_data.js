@@ -78,7 +78,7 @@ const get_machine = async () => {
     ];
 
     let body = {
-        machine :   data.process === 1 ? 1 : data.machine,
+        machine : data.machine,
         process : data.process,
         data: order,
     };

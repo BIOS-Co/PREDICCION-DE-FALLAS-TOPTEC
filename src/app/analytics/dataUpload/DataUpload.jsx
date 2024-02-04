@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpFromBracket, faXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import * as echarts from 'echarts';
-import $ from "jquery"
+import $, { event } from "jquery"
 import { get_all_info, get_machine, get_processes, post_data, post_excel_ } from '../../../services/load/load_data';
 import { saveAs } from 'file-saver';
 import Preloader from '../../shared/preloader/Preloader';
@@ -995,7 +995,7 @@ export default function DataUpload() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [data2, setData2] = useState([]);
-
+  const [copyData2, setCopyData2] = useState([]);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -1035,7 +1035,7 @@ export default function DataUpload() {
         ...subobjeto
       }));
       setData2(arrayDeSubobjetos)
-      
+      setCopyData2(arrayDeSubobjetos)
       console.log(arrayDeSubobjetos);
       setShowImportCharacterization(!showImportCharacterization);
       handleSubmit()
@@ -1230,25 +1230,38 @@ setCards2(elementosNoNulos)
     setSearchValue(newValue);
 
     if (newValue === '') {
+
+      setData2(copyData2)
     } else {
-      const filtered = data2.filter((a) => {
+      const filtered = copyData2.filter((a) => {
         console.log(a)
         const fullName = a.nombreOriginal.toLowerCase() ; // Concatenar los campos y convertir a minúsculas
         return fullName.includes(newValue);
       });
       console.log(filtered, 'filtro');
+    setData2(filtered)
+
     }
   };
 
   const [searchValue, setSearchValue] = useState('');
  
-  const handleSelectChange = (event, label) => {
-    setValores({
-      ...valores,
-      [label]: event.value,
-    
-    });
-  }
+  const handleSelectChange = (selectedOption, label) => {
+    if (selectedOption && selectedOption.label === "AUT") {
+        setValores({
+            ...valores,
+            ['machine']: 1,
+            [label]: selectedOption.value,
+        });
+    } else {
+        setValores({
+            ...valores,
+            [label]: selectedOption ? selectedOption.value : null,
+        });
+    }
+};
+
+
   
   const [contadorTrue, setContadorTrue] = useState(0)
 
@@ -1364,13 +1377,13 @@ setCards2(elementosNoNulos)
                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-4'>
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='maq' options={optionsMachine} value={valores?.process === 2  ?valores?.machine?optionsMachine.find(option=>option.value===valores.machine):null : optionsMachine.find(option=>option.value===1)   } onChange={(event) => handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
+                      <Select id='maq' options={optionsMachine} isDisabled={valores?.process === 1} value={valores.machine?optionsMachine.find(option => option.value === valores.machine):null } onChange={(event) => handleSelectChange(event, 'machine')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Maquina" styles={selectStyles} isClearable={true} name='maq' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
-                  </div>
+                  </div> 
                   <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6'>
                     <div className='form-floating inner-addon- left-addon-'>
-                      <Select id='process' options={optionsoProcesses} value={valores?.process?optionsoProcesses.find(option=>option.value===valores.process):null} onChange={(event) => handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
+                      <Select id='process'    options={optionsoProcesses} value={valores?.process?optionsoProcesses.find(option=>option.value===valores.process):null} onChange={(event) => handleSelectChange(event, 'process')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Proceso" styles={selectStyles} isClearable={true} name='process' />
                       <i className='fa icon-id-type fs-xs'></i>
                     </div>
                   </div>
