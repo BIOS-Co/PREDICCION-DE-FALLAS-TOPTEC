@@ -76,12 +76,12 @@ export default function Landing() {
         </div>
         <div className='row mt-4 mb-4 wrapper-buttons-landing-'>
           <div className='col-12'>
-            <div className="row gx-2 d-flex flex-row justify-content-center align-items-center align-self-center">
-              <div className="col-auto p-3">
+            <div className="row g-4 d-flex flex-row justify-content-center align-items-center align-self-center">
+              <div className="col-auto p-0">
                 <button type='button' className="btn-upload- d-flex flex-column justify-content-center align-items-center align-self-center" onClick={ RedirectDataUpload }><FontAwesomeIcon className='mb-2' icon={faArrowUpFromBracket} size="2xl"/>
                   <span>Cargar datos</span></button>
               </div>
-              <div className="col-auto p-3">
+              <div className="col-auto p-0">
                 <button type='button' className="btn-history- d-flex flex-column justify-content-center align-items-center align-self-center" onClick={ RedirectDataHistory }>
                   <FontAwesomeIcon className='mb-2' icon={faClockRotateLeft} size="2xl"/>
                   <span>Histórico</span></button>
