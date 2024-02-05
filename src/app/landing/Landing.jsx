@@ -1,6 +1,5 @@
 import './Landing.css'
 import LogoToptec from '../../assets/images/logo-toptec.png';
-import LogoBios from '../../assets/images/logo-bios.png';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -87,11 +86,6 @@ export default function Landing() {
                   <span>Histórico</span></button>
               </div>
             </div>
-          </div>
-        </div>
-        <div className='row mt-4 mb-4 wrapper-footer-'>
-          <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
-            <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
           </div>
         </div>
       </div>
