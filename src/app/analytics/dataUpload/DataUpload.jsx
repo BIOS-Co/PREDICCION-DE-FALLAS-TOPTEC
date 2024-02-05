@@ -1013,11 +1013,11 @@ export default function DataUpload() {
         <div className='col-auto col-sm-auto col-md-auto col-lg-auto col-xl-auto col-xxl-auto flex-grow-1 gap-1 d-flex flex-row justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end justify-content-xxl-end align-items-center align-self-center mt-4 mt-sm-4 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0'>
           <div className='row g-3 g-sm-3 g-md-2 g-lg-2 g-xl-2 g-xxl-2 d-flex flex-row justify-content-center align-items-center align-self-center'>
             <div className="col-auto">
-              <button type='button' className="btn-neumorphic- btn-primary-yellow- d-flex flex-row justify-content-center align-items-center align-self-center" data-bs-toggle="modal" data-bs-target="#upload-file"><FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
+              <button type='button' className="btn btn-neumorphic- btn-primary-yellow- d-flex flex-row justify-content-center align-items-center align-self-center" data-bs-toggle="modal" data-bs-target="#upload-file"><FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Importar datos</span></button>
             </div>
             <div className="col-auto">
-              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
+              <button type='button' className="btn btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Descargar plantilla</span></button>
             </div>
           </div>
@@ -1276,7 +1276,7 @@ export default function DataUpload() {
                 </div>
                 <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-2 mb-4'>
                   <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-                    <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleManualCharacterization} data-bs-target="#manual-characterization" aria-controls="manual-characterization">
+                    <button type='button' className="btn btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleManualCharacterization} data-bs-target="#manual-characterization" aria-controls="manual-characterization">
                       <FontAwesomeIcon className='me-2' icon={faSpinner} size="sm"/>
                       <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Procesar</span>
                     </button>
@@ -2006,7 +2006,7 @@ export default function DataUpload() {
               </div>
               <div className='row gx-2 d-flex flex-row justify-content-center align-items-start align-self-start mt-4 mb-2'>
                 <div className='col-auto'>
-                <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
+                <button type='button' className="btn btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center ps-5 pe-5" onClick={toggleImportCharacterization} data-bs-target="#import-characterization" aria-controls="import-characterization">
                   <FontAwesomeIcon className='me-2' icon={faArrowUpFromBracket} size="sm"/>
                   <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Subir</span>
                 </button>

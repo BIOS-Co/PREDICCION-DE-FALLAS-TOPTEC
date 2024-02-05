@@ -552,7 +552,7 @@ export default function DataHistory() {
           </div>
           <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
             <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-              <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
+              <button type='button' className="btn btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
                 <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Exportar</span>
               </button>
             </div>
@@ -897,7 +897,7 @@ export default function DataHistory() {
         </div>
         <div className='row gx-2 d-flex flex-row justify-content-end align-items-start align-self-start mt-4 mb-4 ms-1 me-1 ms-sm-1 me-sm-1 ms-md-1 me-md-1 ms-lg-1 me-lg-1 ms-xl-1 me-xl-1 ms-xxl-1 me-xxl-1'>
           <div className='col-12 col-sm-12 col-md-auto col-lg-auto col-xl-auto col-xxl-auto'>
-            <button type='button' className="btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
+            <button type='button' className="btn btn-neumorphic- btn-primary-blue- d-flex flex-row justify-content-center align-items-center align-self-center"><i className='fa icon-download-file me-2'></i>
               <span className='lh-1 le-spacing-05- fs-5- font-noto-regular- fw-bold'>Exportar</span>
             </button>
           </div>
