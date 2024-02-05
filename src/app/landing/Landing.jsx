@@ -90,7 +90,7 @@ export default function Landing() {
         </div>
         <div className='row mt-4 mb-4 wrapper-footer-'>
           <div className='col-12'>
-            <h3 className="m-0 p-0 lh-base fs-6- font-oswald-regular- text-uppercase text-center fw-bold tx--quaternary-gray- le-spacing-1-">Diseñado por el Centro de Desarrollo Tecnológico - BIOS</h3>
+            <h3 className="m-0 p-0 ps-2 pe-2 lh-base fs-6- font-noto-regular- text-uppercase text-center fw-bold tx--quaternary-gray- le-spacing-05-">Diseñado por el Centro de Desarrollo Tecnológico - BIOS</h3>
           </div>
         </div>
       </div>
