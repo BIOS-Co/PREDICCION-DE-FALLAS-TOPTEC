@@ -19,18 +19,24 @@ export default function Preloader() {
               <div></div>
             </div>
           </div>
-          {/* <div className='txt-loading'>
-            <span data-text-preloader="C" className='letters-loading'>
-              C
-            </span>
-            <span data-text-preloader="A" className='letters-loading'>
-              A
+          <div className='txt-loading'>
+            <span data-text-preloader="P" className='letters-loading'>
+              P
             </span>
             <span data-text-preloader="R" className='letters-loading'>
               R
             </span>
-            <span data-text-preloader="G" className='letters-loading'>
-              G
+            <span data-text-preloader="O" className='letters-loading'>
+              O
+            </span>
+            <span data-text-preloader="C" className='letters-loading'>
+              C
+            </span>
+            <span data-text-preloader="E" className='letters-loading'>
+              E
+            </span>
+            <span data-text-preloader="S" className='letters-loading'>
+              S
             </span>
             <span data-text-preloader="A" className='letters-loading'>
               A
@@ -44,7 +50,13 @@ export default function Preloader() {
             <span data-text-preloader="O" className='letters-loading'>
               O
             </span>
-          </div> */}
+            <span data-text-preloader="." className='letters-loading'>
+              .
+            </span>
+            <span data-text-preloader="." className='letters-loading'>
+              .
+            </span>
+          </div>
         </div>
       </div>
     </React.Fragment>
