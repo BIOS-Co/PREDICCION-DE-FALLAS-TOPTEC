@@ -160,6 +160,10 @@
   animation-delay: 2.5s;
 }
 
+#preloader-wrapper .txt-loading .letters-loading:nth-child(12):before {
+  animation-delay: 2.8s;
+}
+
 #preloader-wrapper .preloader .txt-loading .letters-loading {
   color: rgba(250, 250, 250, 0.4);
   font-family: var(--font-family-regular-oswald-);

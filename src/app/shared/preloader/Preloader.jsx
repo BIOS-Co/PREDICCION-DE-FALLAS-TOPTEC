@@ -56,6 +56,9 @@ export default function Preloader() {
             <span data-text-preloader="." className='letters-loading'>
               .
             </span>
+            <span data-text-preloader="." className='letters-loading'>
+              .
+            </span>
           </div>
         </div>
       </div>
