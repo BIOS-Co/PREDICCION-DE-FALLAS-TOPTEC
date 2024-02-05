@@ -737,7 +737,7 @@ figure {
 }
 
 /* ---------------------------------------------------
-    SETTING VIEWPORT REACT
+    VIEWPORT REACT
   ----------------------------------------------------- */
 
 .App {
@@ -2703,6 +2703,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
 
+  .App {
+    padding-bottom: 0px;
+  }
+
   .min-h- {
     min-height: inherit;
   }
@@ -2808,6 +2812,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 0px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -2915,6 +2923,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
 
+  .App {
+    padding-bottom: 70px;
+  }
+
   .min-h- {
     min-height: inherit;
   }
@@ -3020,6 +3032,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -3127,6 +3143,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
 
+  .App {
+    padding-bottom: 70px;
+  }
+
   .min-h- {
     min-height: inherit;
   }
@@ -3232,6 +3252,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -3339,6 +3363,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
 
+  .App {
+    padding-bottom: 70px;
+  }
+
   .min-h- {
     min-height: 100vh;
   }
@@ -3444,6 +3472,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: 100vh;
