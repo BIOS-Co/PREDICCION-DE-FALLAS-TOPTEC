@@ -1,5 +1,6 @@
 import './Landing.css'
 import LogoToptec from '../../assets/images/logo-toptec.png';
+import LogoBios from '../../assets/images/logo-bios.png';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -89,8 +90,8 @@ export default function Landing() {
           </div>
         </div>
         <div className='row mt-4 mb-4 wrapper-footer-'>
-          <div className='col-12'>
-            <h3 className="m-0 p-0 ps-2 pe-2 lh-base fs-6- font-noto-regular- text-uppercase text-center fw-bold tx--quaternary-gray- le-spacing-05-">Diseñado por el Centro de Desarrollo Tecnológico - BIOS</h3>
+          <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
+            <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
           </div>
         </div>
       </div>
