@@ -10,12 +10,13 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-image: url('../../../assets/images/background-dust.webp');
   background-position: center center;
   background-repeat: repeat;
-  z-index: 2;
+  z-index: 9999;
 }
 
 .slideUp {
