@@ -12,7 +12,7 @@ export default function SplashScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAnimation(true);
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []); // El segundo argumento [] asegura que el efecto se ejecute solo una vez al montar el componente
