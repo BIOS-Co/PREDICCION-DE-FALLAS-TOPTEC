@@ -1,6 +1,6 @@
 import './App.css';
 import LogoBios from './assets/images/logo-bios.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Index } from './app/routes';
 import SplashScreen from './app/shared/splashScreen/SplashScreen';
 

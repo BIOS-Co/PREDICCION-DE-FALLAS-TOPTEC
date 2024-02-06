@@ -1,6 +1,6 @@
 import './Analytics.css'
 import LogoBios from '../../assets/images/logo-bios.png';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Navigate, Route, Routes } from "react-router-dom"
 import DataUpload from './dataUpload/DataUpload'
 import DataHistory from './dataHistory/DataHistory'
