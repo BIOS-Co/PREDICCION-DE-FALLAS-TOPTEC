@@ -1,4 +1,4 @@
-##Instalación del Frontend del Proyecto:
+## Instalación del Frontend del Proyecto:
 Antes de empezar con la instalación se deberá de contar con GIT. En caso de no tenerlo podrían descárgalo de aquí:
 *Git - Downloads (git-scm.com)
      Del cual deberán ingresar sesión. Y para facilidad del manejo del código se recomienda usar           Visual Studio Code. Su enlace de descarga es la siguiente:
