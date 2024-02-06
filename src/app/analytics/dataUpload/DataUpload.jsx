@@ -1,5 +1,4 @@
 import DropArea from '../../../assets/images/bg_upload_file.png';
-import LogoBios from '../../../assets/images/logo-bios.png'
 import UploadIcon from '../../../assets/images/upload-file.svg';
 import React, { useEffect, useRef, useState } from 'react';
 import Select, { components } from 'react-select'
@@ -1941,11 +1940,6 @@ export default function DataUpload() {
                 </div>
 
               </div>
-              <div className='row mt-5 position-relative'>
-                <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
-                  <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
-                </div>
-              </div>
             </div>
           </div>
           <div className={`offcanvas offcanvas-bottom offcanvas-bottom- relevance-characteristics- ${showRelevanceCharacteristics ? 'show' : ''}`} tabIndex="-1" data-bs-backdrop="false" id="relevance-characteristics" aria-labelledby="relevance-characteristics" data-bs-scroll="false">
@@ -1972,11 +1966,6 @@ export default function DataUpload() {
                       <div className='w-100 h-100 mx-auto' id='relevance-characteristics-chart-'></div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className='row mt-5 position-relative'>
-                <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
-                  <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
                 </div>
               </div>
             </div>
@@ -2380,11 +2369,6 @@ export default function DataUpload() {
                 )}
 
 
-              </div>
-              <div className='row mt-5 position-relative'>
-                <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
-                  <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
-                </div>
               </div>
             </div>
           </div>
