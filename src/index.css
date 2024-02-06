@@ -737,12 +737,21 @@ figure {
 }
 
 /* ---------------------------------------------------
-    SETTING VIEWPORT REACT
+    VIEWPORT REACT
   ----------------------------------------------------- */
 
 .App {
   min-height: 100vh;
   overflow-x: hidden;
+  padding-bottom: 70px;
+}
+
+/* ---------------------------------------------------
+    WRAPPER CONTENT
+  ----------------------------------------------------- */
+
+.wrapper-content- {
+  padding-bottom: 70px;
 }
 
 .min-h- {
@@ -1151,10 +1160,9 @@ figure {
   ----------------------------------------------------- */
 
 .logo-bios-landing- {
-  width: 180px;
+  width: 152px;
   height: auto;
   position: relative;
-  right: 5px;
 }
 
 /* ---------------------------------------------------
@@ -2668,6 +2676,23 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
 }
 
 /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+.wrapper-footer- {
+  visibility: inherit;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  height: 70px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+/* ---------------------------------------------------
     MEDIAQUERIES TOPTEC
   ----------------------------------------------------- */
 
@@ -2676,6 +2701,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 0px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -2767,6 +2796,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 100px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: relative;
+  }
+
 }
 
 @media (min-width: 360px) and (max-width: 575.98px) {
@@ -2774,6 +2811,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 0px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -2828,7 +2869,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 160px;
+    width: 152px;
     height: auto;
   }
 
@@ -2865,6 +2906,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 100px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: relative;
+  }
+
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
@@ -2872,6 +2921,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -2926,7 +2979,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -2963,6 +3016,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 115px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -2970,6 +3031,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -3024,7 +3089,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -3061,6 +3126,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 125px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
@@ -3068,6 +3141,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -3122,7 +3199,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -3159,6 +3236,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 125px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
 }
 
 @media (min-width: 1200px) and (max-width: 1399.98px) {
@@ -3166,6 +3251,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: inherit;
@@ -3220,7 +3309,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -3257,6 +3346,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     width: 125px;
   }
 
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
+  }
+
 }
 
 @media (min-width: 1400px) and (max-width: 1919.98px) {
@@ -3264,6 +3361,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   /* ---------------------------------------------------
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
+
+  .App {
+    padding-bottom: 70px;
+  }
 
   .min-h- {
     min-height: 100vh;
@@ -3318,7 +3419,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -3353,6 +3454,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
 
   .file-drop-area- .image-upload- {
     width: 125px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
   }
 
 }
@@ -3363,6 +3472,10 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
     SETTING VIEWPORT REACT
   ----------------------------------------------------- */
 
+  .App {
+    padding-bottom: 70px;
+  }
+
   .min-h- {
     min-height: 100vh;
   }
@@ -3416,7 +3529,7 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
   ----------------------------------------------------- */
 
   .logo-bios-landing- {
-    width: 180px;
+    width: 152px;
     height: auto;
   }
 
@@ -3451,6 +3564,14 @@ div:where(.swal2-container) button:where(.swal2-close):hover {
 
   .file-drop-area- .image-upload- {
     width: 125px;
+  }
+
+  /* ---------------------------------------------------
+    FOOTER
+  ----------------------------------------------------- */
+
+  .wrapper-footer- {
+    position: fixed;
   }
 
 }

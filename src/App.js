@@ -1,5 +1,6 @@
 import './App.css';
-import React, { useEffect, useState, useRef } from 'react';
+import LogoBios from './assets/images/logo-bios.png';
+import React, { useEffect, useState } from 'react';
 import { Index } from './app/routes';
 import SplashScreen from './app/shared/splashScreen/SplashScreen';
 
@@ -37,6 +38,11 @@ function App() {
     <div ref={containerRef} className={`App ${animationFinished ? '' : 'animate__animated animate__fadeIn animate__delay-1s animate__faster'}`}>
       {showSplash && <SplashScreen />}
       <Index />
+      <div className='d-flex flex-column justify-content-center align-items-center align-self-center wrapper-footer-'>
+        <div className='w-100 d-flex flex-column justify-content-center align-items-center align-self-center'>
+          <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
+        </div>
+      </div>
     </div>
   );
 }

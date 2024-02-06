@@ -1,4 +1,3 @@
-import LogoBios from '../../../assets/images/logo-bios.png';
 import DropArea from '../../../assets/images/bg_upload_file.png';
 import UploadIcon from '../../../assets/images/upload-file.svg';
 import React, { useEffect, useRef, useState } from 'react';
