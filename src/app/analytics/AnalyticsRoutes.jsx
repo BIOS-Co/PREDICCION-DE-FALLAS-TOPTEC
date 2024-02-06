@@ -1,9 +1,10 @@
-import './Analytics.css';
+import './Analytics.css'
+import LogoBios from '../../assets/images/logo-bios.png';
 import React, { useState, useEffect, useRef } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import DataUpload from './dataUpload/DataUpload';
-import DataHistory from './dataHistory/DataHistory';
-import Navbar from '../shared/navbar/Navbar';
+import { Navigate, Route, Routes } from "react-router-dom"
+import DataUpload from './dataUpload/DataUpload'
+import DataHistory from './dataHistory/DataHistory'
+import Navbar from '../shared/navbar/Navbar'
 
 export const AnalyticsRoutes = () => {
   const [animationFinished, setAnimationFinished] = useState(false);
@@ -56,6 +57,11 @@ export const AnalyticsRoutes = () => {
           <Route path="dataUpload" element={<DataUpload />} />
           <Route path="dataHistory" element={<DataHistory />} />
         </Routes>
+        <div className='row mt-4 mb-4 sticky-bottom'>
+          <div className='col-12 d-flex flex-column justify-content-center align-items-center align-self-center'>
+            <img className='logo-bios-landing-' src={LogoBios} alt="logo-bios" />
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );
