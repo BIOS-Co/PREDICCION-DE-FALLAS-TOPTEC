@@ -641,7 +641,7 @@ export default function DataUpload() {
             }
           },
           restore: {
-            show: true,
+            show: false,
             iconStyle: {
               borderColor: '#212529'
             },
