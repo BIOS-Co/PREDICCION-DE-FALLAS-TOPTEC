@@ -17,7 +17,6 @@
     "echarts": "^5.4.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.1",
-    "pagination-for-reactjs-component": "^2.1.6",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-date-range": "^1.4.0",
